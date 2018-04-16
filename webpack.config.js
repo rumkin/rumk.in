@@ -9,7 +9,7 @@ const filename = DEV ? `${name}.js` : `${name}.min.js`;
 module.exports = {
   entry: __dirname + '/web.js',
   output: {
-    path: __dirname + '/dist',
+    path: __dirname + '/dist/assets',
     filename,
     // library: exportVar,
   },
