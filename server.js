@@ -35,7 +35,7 @@ plant.use(async ({req, res}, next) => {
     return next();
   }
 
-  const filepath = path.join(__dirname, 'dist', url.slice(8));
+  const filepath = path.join(__dirname, 'dist', url);
 
   if (! await fsExists(filepath)) {
     return next();

@@ -14,7 +14,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "render": "npm run build && node cli.js / > dist/index.html && node cli.js 404 > dist/404.html",
-    "build": "npm run clean && npm run build:dev && cp -r assets/* dist",
+    "build": "npm run clean && npm run build:dev && cp -r assets dist",
     "build:dev": "webpack",
     "build:prod": "NODE_ENV=production webpack",
     "start": "node server.js 8000"
