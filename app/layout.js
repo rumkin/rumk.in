@@ -10,6 +10,7 @@ module.exports = ({head, body}) => h('html', {},
     h('link', {
       href: '/assets/logo.png',
       rel: 'shortcut icon',
+      type: 'image/png',
     }),
   ),
   h('body', {}, [
