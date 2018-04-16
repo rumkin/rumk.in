@@ -6,6 +6,7 @@ exports.mainPage = {
       type: 'platform',
       env: ['web', 'nodejs'],
       role: 'founder',
+      state: 'alpha',
       links: [
         {
           url: 'https://bundler.online',
@@ -19,6 +20,7 @@ exports.mainPage = {
       type: 'lib',
       env: ['web', 'nodejs'],
       role: 'author',
+      state: 'production',
       links: [
         {
           url: 'https://github.com/rumkin/typed-props',
@@ -35,6 +37,7 @@ exports.mainPage = {
       intro: 'Signature library for the web.',
       type: 'lib',
       env: ['web', 'nodejs'],
+      state: 'production',
       links: [
         {
           url: 'https://github.com/rumkin/crypto-stamp',
@@ -52,6 +55,7 @@ exports.mainPage = {
       intro: 'Task running tool written in bash.',
       type: 'util',
       env: ['unix'],
+      state: 'production',
       links: [
         {
           url: 'https://github.com/rumkin/bake',

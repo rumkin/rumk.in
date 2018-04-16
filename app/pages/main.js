@@ -36,6 +36,10 @@ const projectList = (prop) => (
           'role',
           project.role,
         ),
+        props(
+          'state',
+          project.state,
+        ),
       ]),
     ])
   )))
