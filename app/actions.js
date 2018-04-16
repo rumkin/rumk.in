@@ -16,8 +16,11 @@ module.exports = ({history} = {}) => ({
     return imm.set(state, 'title', value);
   },
   pageGoto: (url) => (state) => {
+    // TODO Get whole path.
     if (history.location.pathname !== url) {
       history.push(url);
+      // TODO Scroll to top or to anchor.
+      window.scrollTo(0, 0);
     }
 
     return imm.set(state, 'url', url);
