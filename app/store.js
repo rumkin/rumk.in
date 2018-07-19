@@ -1,20 +1,6 @@
 exports.mainPage = {
   projects: [
     {
-      title: 'Bundler.online',
-      intro: 'Online IDE created for fast prototyping, testing and hosting js apps and components, with easy collaboration, distribution and promoting.',
-      type: 'platform',
-      env: ['web', 'nodejs'],
-      role: 'founder',
-      state: 'alpha',
-      links: [
-        {
-          url: 'https://bundler.online',
-          label: 'site',
-        },
-      ],
-    },
-    {
       title: 'Typed Props',
       intro: 'Facebook\'s PropTypes interface implementation for client and server.',
       type: 'lib',

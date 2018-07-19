@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 
 const name = 'app';
-// const exportVar = 'TypedProps';
 
 const DEV = process.env.NODE_ENV !== 'production';
 const filename = DEV ? `${name}.js` : `${name}.min.js`;
@@ -11,21 +10,9 @@ module.exports = {
   output: {
     path: __dirname + '/dist/assets',
     filename,
-    // library: exportVar,
   },
   module: {
-    loaders: [
-        {
-          // test: /\.js$/,
-          //   loader: 'babel-loader',
-          //   query: {
-          //       // presets: ['es2015'],
-          //       plugins: [
-          //         // ['transform-object-rest-spread', {'useBuiltIns': true}],
-          //       ],
-          //   },
-        },
-    ],
+    loaders: [],
   },
   plugins: DEV ? [] : [
     new webpack.optimize.UglifyJsPlugin(),
