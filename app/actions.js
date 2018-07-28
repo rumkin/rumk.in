@@ -3,7 +3,7 @@ const imm = require('../lib/imm');
 module.exports = ({history} = {}) => ({
   setTitle: (value) => (state) => {
     if (state.isClient) {
-      document.title = title;
+      document.title = value;
     }
 
     return imm.set(state, 'title', value);
