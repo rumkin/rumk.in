@@ -1,10 +1,10 @@
-const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const mime = require('mime');
 const {promisify} = require('util');
 const memoize = require('fast-memoize');
-const Plant = require('@Plant/plant');
+const createServer = require('@plant/http');
+const Plant = require('@plant/plant');
 const {renderToString} = require('@hyperapp/render');
 
 const fsStat = promisify(fs.stat);
@@ -56,8 +56,8 @@ plant.use(({req, res}) => {
   res.html(render(req.url.pathname));
 });
 
-const server = http.createServer(plant.handler());
+const server = createServer(plant);
 
 server.listen(PORT, () => {
-  console.log('Server is started');
+  console.log(`Server is started at port ${PORT}`);
 });
