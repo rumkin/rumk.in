@@ -1,12 +1,12 @@
 {
   "dependencies": {
     "@hyperapp/render": "^2.0.0",
-    "@plant/http": "^0.1.0",
-    "@plant/plant": "^1.0.1",
+    "@plant/fs": "^0.1.1",
+    "@plant/http": "^1.0.3",
+    "@plant/plant": "^2.3.0",
     "fast-memoize": "^2.3.2",
     "history": "^4.7.2",
-    "hyperapp": "^1.2.5",
-    "mime": "^2.3.1"
+    "hyperapp": "^1.2.5"
   },
   "devDependencies": {
     "webpack": "^2.7.0",
