@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "webpack": "^2.7.0",
-    "webpack-cli": "^2.0.14"
+    "webpack-cli": "^3.3.6"
   },
   "scripts": {
     "clean": "rm -rf dist",
