@@ -43,6 +43,11 @@ a {
 
 }
 
+.projectList-itemLinks {
+  display: inline-block;
+  margin-right: 1em;
+}
+
 .projectProps {
   display: inline-block;
   margin: -3px 0;

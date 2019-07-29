@@ -14,7 +14,7 @@ const projectList = (prop) => (
       h('h3', {}, project.title),
       h('p', {}, project.intro),
       h('div', {}, [
-        ...flatten(project.links.map((link, key) =>
+        h('div', {class: 'projectList-itemLinks'}, flatten(project.links.map((link, key) =>
           [
             h('a', {
               key,
@@ -23,7 +23,7 @@ const projectList = (prop) => (
             }, link.label),
             ' ',
           ]
-        )),
+        ))),
         ...projectProps(project),
       ]),
     ])
