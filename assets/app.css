@@ -48,15 +48,18 @@ a {
   margin: -3px 0;
   margin-right: 0.5em;
 
-  border: 1px solid #dbdbea;
+  border: 1px solid #eee;
   border-radius: 4px;
 
-  color: #8f9bb7;
+  font-size: 14px;
+  color: #666;
 }
 
 .projectProps-key {
   display: inline-block;
-  background-color: #f4f7fb;
+  background-color: #f9f9f9;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
   margin: 0;
   padding: 3px;
 }
