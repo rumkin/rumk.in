@@ -1,20 +1,6 @@
 exports.mainPage = {
   projects: [
     {
-      title: 'Code To Image',
-      intro: 'Code to image converter online util.',
-      type: 'util',
-      env: ['web'],
-      role: 'author',
-      state: 'production',
-      links: [
-        {
-          url: 'https://code-to-image.now.sh',
-          label: 'site',
-        },
-      ],
-    },
-    {
       title: 'Plant',
       intro: 'WebAPI charged HTTP2 web server for Node.js and Browser.',
       type: 'lib',
@@ -29,6 +15,20 @@ exports.mainPage = {
         {
           url: 'https://npmjs/package/@plant/plant',
           label: 'npm',
+        },
+      ],
+    },
+    {
+      title: 'Code To Image',
+      intro: 'Code to image converter online util.',
+      type: 'util',
+      env: ['web'],
+      role: 'author',
+      state: 'production',
+      links: [
+        {
+          url: 'https://code-to-image.now.sh',
+          label: 'site',
         },
       ],
     },
