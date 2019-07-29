@@ -6,6 +6,7 @@ const {createServer} = require('@plant/http');
 const {serveDir} = require('@plant/fs')
 const {renderToString} = require('@hyperapp/render');
 
+const {handleError} = require('./lib/plant-error');
 const layout = require('./app/layout');
 const {actions, store, view} = require('./app');
 
@@ -23,6 +24,11 @@ const render = (url) => renderToString(layout({
 const PORT = process.argv[2] || 8080;
 
 const plant = new Plant();
+
+plant.use(handleError({
+  debug: true,
+  logger: console,
+}))
 
 plant.use('/assets/*', serveDir(
   path.join(__dirname, 'dist', 'assets')
