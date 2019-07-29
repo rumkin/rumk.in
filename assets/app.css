@@ -1,5 +1,5 @@
 html, body {
-  font-family: sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   padding: 0;
   margin: 0;
 }
@@ -25,6 +25,10 @@ a {
   font-size: 120%;
 }
 
+.projects-header {
+  margin: 3em 0;
+}
+
 .projectList {
   list-style: none;
   padding: 0;
@@ -41,22 +45,26 @@ a {
 
 .projectProps {
   display: inline-block;
-  padding: 3px;
   margin: -3px 0;
   margin-right: 0.5em;
 
   border: 1px solid #eee;
   border-radius: 4px;
+
+  color: #999;
 }
 
 .projectProps-key {
   display: inline-block;
-  color: #666;
+  border-right: 1px solid #eee;
+  background-color: #f6f6f6;
   margin: 0;
+  padding: 3px;
 }
 
 .projectProps-value {
   display: inline-block;
   margin: 0;
   margin-left: 0.1em;
+  padding: 3px;
 }

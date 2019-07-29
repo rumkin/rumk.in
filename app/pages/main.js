@@ -4,7 +4,7 @@ const {dilute} = require('../helpers/list');
 const {flatten} = require('../helpers/list');
 
 const props = (title, children) => h('dl', {class: 'projectProps'}, [
-  h('dt', {class: 'projectProps-key'}, `${title}:`),
+  h('dt', {class: 'projectProps-key'}, `${title}`),
   h('dd', {class: 'projectProps-value'}, children),
 ]);
 
@@ -15,31 +15,16 @@ const projectList = (prop) => (
       h('p', {}, project.intro),
       h('div', {}, [
         ...flatten(project.links.map((link, key) =>
-            [
-              h('a', {
-                key,
-                href: link.url,
-                class: 'projectList-itemLink',
-              }, link.label),
-              ' ',
-            ]
+          [
+            h('a', {
+              key,
+              href: link.url,
+              class: 'projectList-itemLink',
+            }, link.label),
+            ' ',
+          ]
         )),
-        props(
-          'type',
-          project.type,
-        ),
-        props(
-          'env',
-          dilute(project.env, ', '),
-        ),
-        props(
-          'role',
-          project.role,
-        ),
-        props(
-          'state',
-          project.state,
-        ),
+        ...projectProps(project),
       ]),
     ])
   )))
@@ -54,14 +39,33 @@ const logo = () => (
   })
 );
 
+const projectProps = (project) => [
+  props(
+    'type',
+    project.type,
+  ),
+  props(
+    'env',
+    dilute(project.env, ', '),
+  ),
+  props(
+    'role',
+    project.role,
+  ),
+  props(
+    'state',
+    project.state,
+  ),
+]
+
 module.exports = ({mainPage}, actions) => {
-  actions.setTitle('Rumkin');
+  actions.setTitle('Paul Rumkin');
 
   return h('div', {class: 'container'}, [
     h('div', {class: 'hero'}, [
       h('h1', {}, [
         logo(),
-        'Rumkin',
+        'Paul Rumkin',
       ]),
       h('p', {}, [
         'Software development for unix, web and ethereum. Contacts: ',
@@ -73,9 +77,12 @@ module.exports = ({mainPage}, actions) => {
         '.',
       ]),
     ]),
-    h(projectList, {
-      projects: mainPage.projects,
-      class: 'projectList',
-    }),
+    h('div', {class:'projects'}, [
+      h('h2', {class:'projects-header'}, 'Projects'),
+      h(projectList, {
+        projects: mainPage.projects,
+        class: 'projectList',
+      }),
+    ])
   ]);
 };
