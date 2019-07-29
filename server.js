@@ -10,9 +10,12 @@ const {handleError} = require('./lib/plant-error');
 const layout = require('./app/layout');
 const {actions, store, view} = require('./app');
 
-const render = (url) => renderToString(layout({
+const render = ({
+  url,
+  title = 'Application',
+}) => renderToString(layout({
   head: {
-    title: 'Paul Rumkin',
+    title,
   },
   body: view({
     ...store,
@@ -35,7 +38,10 @@ plant.use('/assets/*', serveDir(
 ))
 
 plant.use(({req, res}) => {
-  res.html(render(req.url.pathname));
+  res.html(render({
+    url: req.url.pathname,
+    title: 'Paul Rumkin',
+  }));
 });
 
 const server = createServer(plant);
