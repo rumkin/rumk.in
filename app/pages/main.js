@@ -1,5 +1,5 @@
 const {h} = require('hyperapp');
-const {goto} = require('../helpers/link');
+
 const {dilute} = require('../helpers/list');
 const {flatten} = require('../helpers/list');
 

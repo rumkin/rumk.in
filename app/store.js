@@ -1,8 +1,40 @@
 exports.mainPage = {
   projects: [
     {
+      title: 'Code To Image',
+      intro: 'Code to image converter online util.',
+      type: 'util',
+      env: ['web'],
+      role: 'author',
+      state: 'production',
+      links: [
+        {
+          url: 'https://code-to-image.now.sh',
+          label: 'site',
+        },
+      ],
+    },
+    {
+      title: 'Plant',
+      intro: 'WebAPI charged HTTP2 web server for Node.js and Browser.',
+      type: 'lib',
+      env: ['web', 'nodejs'],
+      role: 'author',
+      state: 'production',
+      links: [
+        {
+          url: 'https://github.com/rumkin/plant',
+          label: 'github',
+        },
+        {
+          url: 'https://npmjs/package/@plant/plant',
+          label: 'npm',
+        },
+      ],
+    },
+    {
       title: 'Typed Props',
-      intro: 'Facebook\'s PropTypes interface implementation for client and server.',
+      intro: 'Simple validation library for client and server inspired by Facebook\'s PropTypes.',
       type: 'lib',
       env: ['web', 'nodejs'],
       role: 'author',
