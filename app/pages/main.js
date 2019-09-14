@@ -36,6 +36,7 @@ const logo = () => (
     src: '/assets/logo.png',
     width: '16',
     height: '16',
+    alt: 'Logo',
   })
 );
 

@@ -1,6 +1,8 @@
 const {h} = require('hyperapp');
 
-module.exports = ({head, body}) => h('html', {},
+module.exports = ({head, body}) => h('html', {
+  lang: 'en',
+},
   h('head', {},
     h('title', {}, head.title),
     h('link', {
