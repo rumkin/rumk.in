@@ -1,4 +1,4 @@
-function dilute(array, separator) {
+export function dilute(array, separator) {
   const result = new Array(array.length * 2 - 1);
 
   for (let i = 0; i < array.length; i++) {
@@ -11,9 +11,6 @@ function dilute(array, separator) {
   return result;
 }
 
-function flatten(array) {
+export function flatten(array) {
   return array.reduce((result, items) => [...result, ...items], []);
 }
-
-exports.dilute = dilute;
-exports.flatten = flatten;

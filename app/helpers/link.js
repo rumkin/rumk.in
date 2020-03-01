@@ -8,4 +8,4 @@ function linkGoto(fn, e) {
   fn(e);
 }
 
-exports.goto = (fn) => linkGoto.bind(null, fn);
+export const goto = (fn) => linkGoto.bind(null, fn);

@@ -1,89 +1,87 @@
-const {h} = require('hyperapp');
+import {h} from 'hyperapp'
 
-const {dilute} = require('../helpers/list');
-const {flatten} = require('../helpers/list');
+import {GithubIcon, TwitterIcon, MailIcon} from '../components/icons'
 
-const props = (title, children) => h('dl', {class: 'projectProps'}, [
-  h('dt', {class: 'projectProps-key'}, `${title}`),
-  h('dd', {class: 'projectProps-value'}, children),
-]);
+function Props(title, children) {
+  return (
+    <dl class="projectProps">
+      <dt class="projectProps-key">{title}</dt>
+      <dd class="projectProps-value">{children}</dd>
+    </dl>
+  )
+}
 
-const projectList = (prop) => (
-  h('ul', prop, prop.projects.map((project, key) => (
-    h('li', {key, class: 'projectList-item'}, [
-      h('h3', {}, project.title),
-      h('p', {}, project.intro),
-      h('div', {}, [
-        h('div', {class: 'projectList-itemLinks'}, flatten(project.links.map((link, key) =>
-          [
-            h('a', {
-              key,
-              href: link.url,
-              class: 'projectList-itemLink',
-            }, link.label),
-            ' ',
-          ]
-        ))),
-        ...projectProps(project),
-      ]),
-    ])
-  )))
-);
+function ProjectList({projects, ...props}) {
+  return (
+    <ul class="ProjectList" {...props}>
+      {projects.map((project, i) => (
+        <li key={i} class="ProjectList-item">
+          <a
+            class="ProjectList-itemLink"
+            href={project.homepage.url}
+            title={project.homepage.label}
+          >
+            <h3>
+              {project.title}
+            </h3>
+            <p class="ProjectList-desc">
+              {project.intro}
+            </p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}
 
-const logo = () => (
-  h('img', {
-    class: 'logo',
-    src: '/assets/logo.png',
-    width: '16',
-    height: '16',
-    alt: 'Logo',
-  })
-);
+function Logo() {
+  return (
+    <img
+      class="logo"
+      src="/assets/logo.png"
+      width={16}
+      heigh={16}
+      alt="Logo"
+    />
+  )
+};
 
-const projectProps = (project) => [
-  props(
-    'type',
-    project.type,
-  ),
-  props(
-    'env',
-    dilute(project.env, ', '),
-  ),
-  props(
-    'role',
-    project.role,
-  ),
-  props(
-    'state',
-    project.state,
-  ),
-]
-
-module.exports = ({mainPage}, actions) => {
+export default function MainPage(state, actions) {
   actions.setTitle('Paul Rumkin');
 
-  return h('div', {class: 'container'}, [
-    h('div', {class: 'hero'}, [
-      h('h1', {}, [
-        logo(),
-        'Paul Rumkin',
-      ]),
-      h('p', {}, [
-        'Software development for unix, web and ethereum. Contacts: ',
-        h('a', {href: 'mailto:dev@rumk.in'}, 'dev@rumk.in'),
-        ', ',
-        h('a', {href: 'https://github.com/rumkin'}, 'github'),
-        ', ',
-        h('a', {href: 'https://twitter.com/rumkin'}, 'twitter'),
-        '.',
-      ]),
-    ]),
-    h('div', {class:'projects'}, [
-      h('h2', {class:'projects-header'}, 'Projects'),
-      h(projectList, {
-        projects: mainPage.projects,
-        class: 'projectList',
-      }),
-    ])
-  ]);
+  return (
+    <div class="container">
+      <div class="Hero">
+        <div class="Hero-body">
+          <h1 class="Hero-header">
+            <Logo />
+            Paul Rumkin
+          </h1>
+          <p>
+            Developer and author.
+          </p>
+          <nav class="Profile-nav">
+            <a href="mailto:dev@rumk.in">
+              <MailIcon size={16} class="Icon" /> dev@rumk.in
+            </a>{' '}
+            <a href="https://github.com/rumkin">
+              <GithubIcon size={16} class="Icon" /> rumkin
+            </a>{' '}
+            <a href="https://twitter.com/rumkin">
+              <TwitterIcon size={16} class="Icon" /> rumkin
+            </a>
+          </nav>
+        </div>
+      </div>
+      <main class="Main">
+        <div class="Projects">
+          <h2 class="Projects-header">
+            Projects
+          </h2>
+          <ProjectList projects={state.projects} />
+        </div>
+      </main>
+      <footer>© Paul Rumkin, 2020.</footer>
+    </div>
+  );
 };

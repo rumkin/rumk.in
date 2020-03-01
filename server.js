@@ -1,14 +1,15 @@
-const path = require('path')
+import path from 'path'
 
-const memoize = require('fast-memoize');
-const Plant = require('@plant/plant');
-const {createServer} = require('@plant/http');
-const {serveDir} = require('@plant/fs')
-const {renderToString} = require('@hyperapp/render');
+import memoize from 'fast-memoize';
+import Plant from '@plant/plant';
+import {createServer} from '@plant/http';
+import {serveDir} from '@plant/fs';
+import {renderToString} from '@hyperapp/render';
 
-const {handleError} = require('./lib/plant-error');
-const layout = require('./app/layout');
-const {actions, store, view} = require('./app');
+import {handleError} from './lib/plant-error';
+
+import {actions, store, view} from './app';
+import layout from './app/layout';
 
 const render = ({
   url,
@@ -34,7 +35,7 @@ plant.use(handleError({
 }))
 
 plant.use('/assets/*', serveDir(
-  path.join(__dirname, 'dist', 'assets')
+  path.join(__dirname, 'assets')
 ))
 
 plant.use(({req, res}) => {

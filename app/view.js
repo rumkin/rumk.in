@@ -1,9 +1,9 @@
-const {
+import {
   mainPage,
   notFoundPage,
-} = require('./pages');
+} from './pages';
 
-const app = (state, actions) => {
+export default (state, actions) => {
   switch (state.url) {
     case '/':
       return mainPage(state, actions);
@@ -11,5 +11,3 @@ const app = (state, actions) => {
       return notFoundPage(state, actions);
   }
 };
-
-module.exports = app;

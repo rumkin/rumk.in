@@ -10,15 +10,27 @@
     "hyperapp": "^1.2.5"
   },
   "devDependencies": {
-    "webpack": "^2.7.0",
-    "webpack-cli": "^3.3.6"
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.6",
+    "@babel/plugin-proposal-export-default-from": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
+    "@rollup/plugin-json": "^4.0.2",
+    "rollup": "^1.32.0",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-replace": "^2.2.0"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "render": "npm run build && node cli.js / > dist/index.html && node cli.js 404 > dist/404.html",
-    "build": "npm run clean && npm run build:dev && cp -r assets/* dist/assets/",
-    "build:dev": "webpack",
-    "build:prod": "NODE_ENV=production webpack",
+    "clean": "rm -rf build",
+    "render": "npm run build && node cli.js / > build/index.html && node cli.js 404 > build/404.html",
+    "build": "npm run clean && npm run compile && npm run copy",
+    "copy": "cp -r assets/* build/assets",
+    "compile": "npm run rollup",
+    "webpack": "webpack",
+    "webpack:prod": "NODE_ENV=production npm run compile",
+    "rollup": "rollup -c rollup.config.js",
+    "rollup:prod": "NODE_ENV=production npm run rollup",
     "start": "node server.js 8000"
   }
 }

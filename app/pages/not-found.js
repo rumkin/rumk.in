@@ -1,20 +1,26 @@
-const {h} = require('hyperapp');
-const {goto} = require('../helpers/link');
+import {h} from 'hyperapp';
+import {goto} from '../helpers/link';
 
-module.exports = (state, actions) => {
+export default (state, actions) => {
   actions.setTitle('Not Found');
 
   return (
-    h('div', {class: 'container'}, [
-      h('h1', {}, 'Page not found'),
-      h('p', {}, [
-        'Sorry. There is no such page. Try to look at ',
-        h('a', {
-          href: '/',
-          onclick: goto(() => actions.pageGoto('/')),
-        }, 'main page'),
-        '.',
-      ]),
-    ])
-  );
+    <div class="container">
+      <main class="Main">
+        <div class="hero">
+          <h1>
+            Page not found
+          </h1>
+          <p>
+            Sorry. There is no such page. Try to look on
+            the <a
+              href="/"
+              onclick={goto(() => actions.pageGoto('/'))
+            }>main page</a>.
+          </p>
+        </div>
+      </main>
+      <footer>© Paul Rumkin, 2020.</footer>
+    </div>
+  )
 };

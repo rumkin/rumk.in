@@ -1,12 +1,12 @@
-const imm = require('../lib/imm');
+import {set} from '../lib/imm'
 
-module.exports = ({history} = {}) => ({
+export default ({history} = {}) => ({
   setTitle: (value) => (state) => {
     if (state.isClient) {
       document.title = value;
     }
 
-    return imm.set(state, 'title', value);
+    return set(state, 'title', value);
   },
   pageGoto: (url) => (state) => {
     if (state.isClient) {
@@ -19,6 +19,6 @@ module.exports = ({history} = {}) => ({
     }
 
 
-    return imm.set(state, 'url', url);
+    return set(state, 'url', url);
   },
 });

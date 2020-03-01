@@ -1,8 +1,8 @@
-const {app} = require('hyperapp');
-const {createBrowserHistory} = require('history');
+import {app} from 'hyperapp';
+import {createBrowserHistory} from 'history';
 
-const {actions, store, view} = require('./app');
-const imm = require('./lib/imm');
+import {actions, store, view} from './app';
+
 
 const history = createBrowserHistory();
 

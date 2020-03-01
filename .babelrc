@@ -1,0 +1,10 @@
+{
+  "presets": [
+    ["@babel/preset-react", {
+      "pragma": "h",
+    }]
+  ],
+  "plugins": [
+    ["@babel/plugin-proposal-export-default-from"]
+  ]
+}

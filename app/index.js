@@ -1,3 +1,3 @@
-exports.actions = require('./actions.js');
-exports.store = require('./store.js');
-exports.view = require('./view.js');
+export {default as actions} from './actions'
+export {default as store} from './store'
+export {default as view} from './view'
