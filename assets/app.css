@@ -14,7 +14,7 @@ body, #app {
 
 .container {
   max-width: 960px;
-  padding: 0 40px 40px 40px;
+  padding: 0 64px 40px 64px;
   margin: 0 auto;
 }
 
@@ -22,10 +22,10 @@ a {
   color: black;
 }
 
-.Logo {
-  vertical-align: middle;
-  margin-left: -30px;
-  margin-right: 14px;
+.Hero-Logo {
+  vertical-align: baseline;
+  margin-left: -48px;
+  margin-right: 16px;
 }
 
 .Hero {
@@ -34,9 +34,47 @@ a {
   align-items: center;
 }
 
+.Hero-body {
+  padding: 50px 0;
+}
+
+
 .Hero-header {
   margin: 0;
-  font-size: 3em;
+  font-size: 4em;
+}
+
+.Hero-intro {
+  margin: 0;
+  font-size: 1.3em;
+  color: #999;
+}
+
+.ProfileContacts {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 4em;
+  display: inline-block;
+}
+
+.ProfileContacts-link {
+  text-decoration: none;
+}
+
+.ProfileContacts-item {
+  display: inline-block;
+}
+
+.ProfileContacts-item:not(:last-child) {
+  margin: 0;
+  margin-right: 0.5em;
+}
+
+.ProfileContacts-item:not(:last-child):after {
+  content: "·";
+  display: inline-block;
+  margin-left: 0.5em;
+  color: #999;
 }
 
 .Main {
@@ -45,6 +83,7 @@ a {
 
 .Main-header {
   margin: 2em 0;
+  font-size: 2em;
 }
 
 .ProjectList {
@@ -71,17 +110,4 @@ a {
 
 .Icon {
   vertical-align: middle;
-}
-
-.Profile-nav > a {
-  display: inline-block;
-  margin-right: 0.5em;
-  text-decoration: none;
-}
-
-.Profile-nav > a:not(:last-child):after {
-    content: "·";
-    display: inline-block;
-    margin-left: 0.5em;
-    color: #999;
 }

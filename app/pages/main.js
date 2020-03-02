@@ -37,14 +37,56 @@ function ProjectList({projects, ...props}) {
 function Logo() {
   return (
     <img
-      class="logo"
+      class="Hero-Logo"
       src="/assets/logo.png"
-      width={16}
-      heigh={16}
+      width={32}
+      heigh={32}
       alt="Logo"
     />
   )
 };
+
+function ProfileContact({icon, size=16, url, compact}, ...children) {
+  return (
+    <a href={url} class="ProfileContacts-link">
+      {h(icon, {size, class: "Icon"})}{compact ? null : [' ', ...children]}
+    </a>
+  )
+}
+
+function ProfileContacts() {
+  return (
+    <ul class="ProfileContacts">
+      <li class="ProfileContacts-item">
+        <ProfileContact
+          url="mailto:hello@rumk.in"
+          icon={MailIcon}
+          compact={false}
+        >
+          hello@rumk.in
+        </ProfileContact>
+      </li>
+      <li class="ProfileContacts-item">
+        <ProfileContact
+          url="https://github.com/rumkin"
+          icon={GithubIcon}
+          compact={false}
+        >
+          rumkin
+        </ProfileContact>
+      </li>
+      <li class="ProfileContacts-item">
+        <ProfileContact
+          url="https://twitter.com/rumkin"
+          icon={TwitterIcon}
+          compact={false}
+        >
+          rumkin
+        </ProfileContact>
+      </li>
+    </ul>
+  )
+}
 
 export default function MainPage(state, actions) {
   actions.setTitle('Paul Rumkin');
@@ -57,22 +99,12 @@ export default function MainPage(state, actions) {
             <Logo />
             Paul Rumkin
           </h1>
-          <p>
-            Developer and author.
+          <p class="Hero-intro">
+            Developer and author
           </p>
-          <nav class="Profile-nav">
-            <a href="mailto:dev@rumk.in">
-              <MailIcon size={16} class="Icon" /> dev@rumk.in
-            </a>{' '}
-            <a href="https://github.com/rumkin">
-              <GithubIcon size={16} class="Icon" /> rumkin
-            </a>{' '}
-            <a href="https://twitter.com/rumkin">
-              <TwitterIcon size={16} class="Icon" /> rumkin
-            </a>
-          </nav>
         </div>
       </div>
+      <ProfileContacts />
       <main class="Main">
         <div class="Projects">
           <h2 class="Projects-header">
