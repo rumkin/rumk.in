@@ -88,8 +88,32 @@ function ProfileContacts() {
   )
 }
 
+function Loading(state) {
+  return <div>Loading...</div>
+}
+
 export default function MainPage(state, actions) {
+  const {isLoading, error, page} = state
   actions.setTitle('Paul Rumkin');
+
+  let content
+  
+  if (isLoading) {
+    content = <Loading state={state}/>
+  }
+  else if (error) {
+    content = <div>Error {error + ''}</div>
+  }
+  else {
+    content = (
+      <div class="Projects">
+        <h2 class="Projects-header">
+          Projects
+        </h2>
+        <ProjectList projects={page.projects} />
+      </div>
+    )
+  }
 
   return (
     <div class="container">
@@ -106,14 +130,24 @@ export default function MainPage(state, actions) {
       </div>
       <ProfileContacts />
       <main class="Main">
-        <div class="Projects">
-          <h2 class="Projects-header">
-            Projects
-          </h2>
-          <ProjectList projects={state.projects} />
-        </div>
+        {content}
       </main>
       <footer>© Paul Rumkin, 2020.</footer>
     </div>
   );
 };
+
+export async function fetchRemoteState() {
+  return {
+    projects: [
+      {
+        title: 'Plant',
+        intro: 'JavaScript HTTP2 web server charged with Web API for Node.js and browsers.',
+        homepage: {
+          url: 'https://github.com/rumkin/plant',
+          label: 'github',
+        },
+      },
+    ],
+  }
+}

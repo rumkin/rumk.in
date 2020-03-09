@@ -1,7 +1,7 @@
-const {renderToString} = require('@hyperapp/render');
+import {renderToString} from '@hyperapp/render';
 
-const layout = require('./app/layout');
-const {view, store} = require('./app');
+import layout from './app/layout';
+import {view, store} from './app';
 
 const url = process.argv[2] || '/';
 

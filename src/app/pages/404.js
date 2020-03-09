@@ -1,7 +1,7 @@
 import {h} from 'hyperapp';
 import {goto} from '../helpers/link';
 
-export default (state, actions) => {
+export default function E404(state, actions) {
   actions.setTitle('Not Found');
 
   return (
@@ -23,4 +23,4 @@ export default (state, actions) => {
       <footer>© Paul Rumkin, 2020.</footer>
     </div>
   )
-};
+}
