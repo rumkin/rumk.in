@@ -41,11 +41,11 @@ export default [
 			},
 		],
 		plugins: [
-			removeExport({
+			...onProd(() => removeExport({
 				dir: 'src/app/pages',
 				functions: ['fetchRemoteState'],
 				babelConfig,
-			}),
+			})),
 			babel(babelConfig),
 			commonjs(),
 			replace({
@@ -57,7 +57,11 @@ export default [
 					'console.*',
 				]
 			})),
-	    resolve(),
+	    resolve({
+				extensions: [
+					'.js', '.mjs', '.json', '.node', '.jsx',
+				],
+			}),
 		],
 	},
 ];

@@ -9,32 +9,38 @@ export default ({history} = {}) => ({
 
     return set(state, 'title', value);
   },
-  loadPage: (url) => (state, actions) => {
+  pageLoad: (url) => (state, actions) => {
     return Promise.all([
-      fetchPage((url === '/' ? 'home' : url) + '.json'),
+      fetchPage(url.replace(/\/*$/, '') + '/state.json'),
       delay(200),
     ])
-    .then(([result]) => {
-      actions.setState(result)
+    .then(([{result, error}]) => {
+      actions.setState({
+        isLoading: false,
+        page: result,
+        error,
+      })
     })
   },
-  pageGoto: (url, isLoading = false) => (state) => {
+  pageGoto: (url) => (state) => {
     if (state.isClient) {
-      // TODO Get whole path.
-      if (history.location.pathname !== url) {
+      // if (history.location.pathname + history.location.search !== url) {
         history.push(url);
         // TODO Scroll to top or to anchor.
         window.scrollTo(0, 0);
-      }
+      // }
     }
 
+    return merge(state, {url, page: null, isLoading: false, error: null})
+  },
+  pageSet: (url) => (state) => {
     return merge(state, {
       url,
-      page: {},
+      page: null,
       error: null,
-      isLoading: true,
+      isLoading: false,
     });
-  },
+  }
 });
 
 function delay(timeout) {
@@ -51,15 +57,13 @@ function fetchPage(url) {
     const {page} = await res.json()
 
     return {
-      page,
-      isLoading: false,
+      result: page,
       error: null,
     }
   })
   .catch(error => {
     return {
-      page: {},
-      isLoading: false,
+      result: null,
       error,
     }
   })

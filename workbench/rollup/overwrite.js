@@ -41,7 +41,9 @@ function normalize(id) {
   else {
     return [
       `${id}.js`,
+      `${id}.jsx`,
       `${id}/index.js`,
+      `${id}/index.jsx`,
     ]
   }
 }

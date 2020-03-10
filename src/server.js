@@ -1,36 +1,19 @@
 import path from 'path'
 
-import memoize from 'fast-memoize';
-import Plant from '@plant/plant';
-import {createServer} from '@plant/http';
-import {serveDir} from '@plant/fs';
-import {renderToString} from '@hyperapp/render';
+import Plant from '@plant/plant'
+import {createServer} from '@plant/http'
+import {serveDir} from '@plant/fs'
+import {renderToString} from '@hyperapp/render'
 
-import {handleError} from './lib/plant/error';
-import {handleCache} from './lib/plant/cache';
+import {handleError} from './lib/plant/error'
+import {handleCache} from './lib/plant/cache'
 
-import {actions, pages, resolve} from './app';
-import layout from './app/layout';
+import {actions, pages, resolve} from './app'
+import layout from './app/layout'
 
-const render = (view, {
-  url,
-  title = 'Application',
-  ...state
-}) => renderToString(layout({
-  head: {
-    title,
-  },
-  body: view({
-    isClient: false,
-    url,
-    ...state,
-  }, actions()),
-  state,
-}));
+const PORT = process.argv[2] || 8080
 
-const PORT = process.argv[2] || 8080;
-
-const plant = new Plant();
+const plant = new Plant()
 
 plant.use(handleError({
   debug: true,
@@ -41,52 +24,77 @@ plant.use('/assets/*', serveDir(
   path.join(__dirname, 'assets')
 ))
 
-// Cache files
+// Cache app rendering result
 plant.use(handleCache())
 
-plant.use(async ({req, res}) => {
-  const {url} = req
-  const isJson = url.pathname.endsWith('.json')
-  const {route, component} = resolve(url.pathname.replace(/\.json$/, ''))
-  const {fetchRemoteState} = pages[component]
+plant.use(handleApp())
 
-  let page
-  if (fetchRemoteState) {
-    page = await fetchRemoteState({url, route}, {
-      // DB, etc
-    })
-  }
-  else {
-    page = {}
-  }
+const server = createServer(plant)
 
-  if (isJson) {
-    res.json({page})
-  }
-  else {
-    res.html(render(pages[component].default, {
-      url: url.pathname,
-      title: 'Paul Rumkin',
-      route,
-      page,
-    }));
-  }
-});
+server.listen(PORT, () => {
+  console.log(`Server is started at port ${PORT}`)
+})
 
-function match(req, types) {
-  const {other, ...custom} = types
-  const type = req.accept(Object.keys(types))
+function handleApp(app = {}) {
+  return async ({req, res, socket}) => {
+    const {url} = req
+    const isJson = url.pathname.endsWith('/state.json')
+    const {route, component} = resolve('/' + url.pathname.replace(/\/state\.json$/, '').replace(/^\//, ''))
+    const {fetchRemoteState} = pages[component]
 
-  if (type in custom) {
-    return custom[type](req)
-  }
-  else {
-    return other(req)
+    let page
+    if (fetchRemoteState) {
+      page = await fetchRemoteState({req, route}, app)
+    }
+    else {
+      page = {}
+    }
+
+    if (isJson) {
+      res.json({page})
+    }
+    else {
+      res.push(
+        new Plant.Response({
+          url: new URL(`${url.pathname}/state.json`, req.url),
+          headers: {
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({page}),
+        })
+      )
+
+      res.push('/assets/app.js')
+      res.push('/assets/app.css')
+
+      const html = renderView(pages[component].default, {
+        url: url.pathname,
+        title: 'Paul Rumkin',
+        route,
+        page,
+      })
+
+      res.html(html)
+    }
   }
 }
 
-const server = createServer(plant);
+function renderView(view, {
+  url,
+  title = 'Application',
+  ...state
+}) {
+  const tree = layout({
+    head: {
+      title,
+    },
+    body: view({
+      isClient: false,
+      url,
+      ...state,
+    }, actions()),
+    state,
+  })
 
-server.listen(PORT, () => {
-  console.log(`Server is started at port ${PORT}`);
-});
+  return renderToString(tree)
+}

@@ -1,5 +1,5 @@
 import {h} from 'hyperapp';
-import {goto} from '../helpers/link';
+import {Link} from '../helpers/link';
 
 export default function E404(state, actions) {
   actions.setTitle('Not Found');
@@ -13,10 +13,7 @@ export default function E404(state, actions) {
           </h1>
           <p>
             Sorry. There is no such page. Try to look on
-            the <a
-              href="/"
-              onclick={goto(() => actions.pageGoto('/'))
-            }>main page</a>.
+            the <Link href="/">main page</Link>.
           </p>
         </div>
       </main>

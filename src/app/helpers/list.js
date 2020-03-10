@@ -1,3 +1,4 @@
+// dilute([1, 2, 3], '-') // -> [1, '-', 2, '-', 3]
 export function dilute(array, separator) {
   const result = new Array(array.length * 2 - 1);
 

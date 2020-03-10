@@ -93,13 +93,18 @@ function Loading(state) {
 }
 
 export default function MainPage(state, actions) {
-  const {isLoading, error, page} = state
-  actions.setTitle('Paul Rumkin');
+  actions.setTitle('Paul Rumkin')
+  
+  const {url, isLoading, error, page} = state
 
   let content
-  
-  if (isLoading) {
-    content = <Loading state={state}/>
+  if (! page) {
+    if (! isLoading) {
+      actions.pageLoad(url)
+    }
+    else {
+      content = <Loading state={state} />
+    }
   }
   else if (error) {
     content = <div>Error {error + ''}</div>

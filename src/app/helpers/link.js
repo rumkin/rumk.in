@@ -1,11 +1,24 @@
+import {h} from 'hyperapp'
+
 function linkGoto(fn, e) {
   if (e.which !== 1 || e.shiftKey || e.ctrlKey || e.metaKey || e.altKey) {
-    return;
+    return
   }
 
-  e.preventDefault();
+  e.preventDefault()
 
-  fn(e);
+  fn(e)
 }
 
-export const goto = (fn) => linkGoto.bind(null, fn);
+export function goto(fn) {
+  return linkGoto.bind(null, fn)
+}
+
+export const Link = (props, children) => (state, actions) => (
+  <a
+    {...props}
+    onclick={goto(() => actions.pageGoto(props.href))}
+  >
+    {children}
+  </a>
+)
