@@ -48,7 +48,8 @@ async function renderApp(url, app = {}) {
 }
 
 async function main(argv) {
-  const url = new URL(argv[2] || '/', 'http://0.0.0.0')
+  const config = await import(process.cwd() + '/config.json')
+  const url = new URL(argv[2] || '/', `${config.protocol}://${config.host}`)
 
   const {content} = await renderApp(url)
 
