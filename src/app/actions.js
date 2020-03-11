@@ -10,11 +10,8 @@ export default ({history} = {}) => ({
     return set(state, 'title', value);
   },
   pageLoad: (url) => (state, actions) => {
-    return Promise.all([
-      fetchPage(url.replace(/\/*$/, '') + '/state.json'),
-      delay(200),
-    ])
-    .then(([{result, error}]) => {
+    return fetchPage(url.replace(/\/+$/, '') + '/page.json')
+    .then(({result, error}) => {
       actions.setState({
         isLoading: false,
         page: result,
@@ -42,10 +39,6 @@ export default ({history} = {}) => ({
     });
   }
 });
-
-function delay(timeout) {
-  return new Promise(resolve => setTimeout(resolve, timeout))
-}
 
 function fetchPage(url) {
   return fetch(url, {

@@ -5,14 +5,14 @@ export function resolve(url) {
         route: {
           params: {}
         },
-        component: 'mainPage',
+        componentId: 'mainPage',
       }
     default:
       return {
         route: {
           params: {}
         },
-        component: 'notFoundPage',
+        componentId: 'notFoundPage',
       }
   }
 }

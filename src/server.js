@@ -44,16 +44,13 @@ server.listen(PORT, () => {
 function handleApp(app = {}) {
   return async ({req, res, socket}) => {
     const {url} = req
-    const isJson = url.pathname.endsWith('/state.json')
-    const {route, component} = resolve('/' + url.pathname.replace(/\/state\.json$/, '').replace(/^\//, ''))
-    const {fetchRemoteState} = pages[component]
+    const isJson = url.pathname.endsWith('/page.json')
+    const {route, componentId} = resolve('/' + url.pathname.replace(/\/page\.json$/, '').replace(/^\//, ''))
+    const component = pages[componentId]
 
     let page
-    if (fetchRemoteState) {
-      page = await fetchRemoteState({req, route}, app)
-    }
-    else {
-      page = {}
+    if (component.fetchRemoteState) {
+      page = await component.fetchRemoteState({url, route}, app)
     }
 
     if (isJson) {
@@ -62,7 +59,7 @@ function handleApp(app = {}) {
     else {
       res.push(
         new Plant.Response({
-          url: new URL(`${url.pathname}/state.json`, req.url),
+          url: new URL(`${url.pathname}/page.json`, req.url),
           headers: {
             'content-type': 'application/json',
           },
@@ -73,7 +70,7 @@ function handleApp(app = {}) {
       res.push('/assets/app.js')
       res.push('/assets/app.css')
 
-      const html = renderView(pages[component].default, {
+      const html = renderView(component.default, {
         url: url.pathname,
         title: 'Paul Rumkin',
         route,

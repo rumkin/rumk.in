@@ -2,9 +2,9 @@ import * as pages from './pages'
 import {resolve} from './router'
 
 export default function RootView (state, actions) {
-  const {route, component} = resolve(state.url)
+  const {route, componentId} = resolve(state.url)
 
-  return pages[component].default({
+  return pages[componentId].default({
     ...state,
     route,
   }, actions)
