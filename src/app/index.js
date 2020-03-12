@@ -1,5 +1,5 @@
 export {default as actions} from './actions'
-export {default as view} from './view'
 export {getJson} from './store'
 export * as pages from './pages'
-export {resolve} from './router'
+export {default as router} from './router'
+export {resolve} from './core'

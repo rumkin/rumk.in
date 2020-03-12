@@ -1,7 +1,7 @@
 import {renderToString} from '@hyperapp/render';
 
 import layout from './app/layout';
-import {actions, pages, resolve} from './app';
+import {actions, pages, router, resolve} from './app';
 
 function renderView(view, state) {
   let title = 'HyperApp';
@@ -24,12 +24,19 @@ function renderView(view, state) {
 
 async function renderApp(url, app = {}) {
   const isJson = url.pathname.endsWith('/page.json')
-  const {route, componentId} = resolve('/' + url.pathname.replace(/\/page\.json$/, '').replace(/^\//, ''))
-  const component = pages[componentId]
+  let {status, route, component} = resolve(
+    '/' + url.pathname.replace(/\/page\.json$/, '').replace(/^\//, ''),
+    router,
+    pages,
+  )
 
   let page
   if (component.fetchRemoteState) {
     page = await component.fetchRemoteState({url, route}, app)
+    status = page ? 200 : 404
+  }
+  else {
+    status = status || 200
   }
 
   let content
@@ -40,6 +47,7 @@ async function renderApp(url, app = {}) {
     content = renderView(component.default, {
       url: url.pathname,
       route,
+      status,
       page,
     })
   }

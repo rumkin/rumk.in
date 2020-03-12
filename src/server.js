@@ -9,7 +9,7 @@ import {handleError} from './lib/plant/error'
 import {handleCache} from './lib/plant/cache'
 import {handleLogger} from './lib/plant/logger'
 
-import {actions, pages, resolve} from './app'
+import {actions, pages, resolve, router} from './app'
 import layout from './app/layout'
 
 const PORT = process.argv[2] || 8080
@@ -45,15 +45,25 @@ function handleApp(app = {}) {
   return async ({req, res, socket}) => {
     const {url} = req
     const isJson = url.pathname.endsWith('/page.json')
-    const {route, componentId} = resolve('/' + url.pathname.replace(/\/page\.json$/, '').replace(/^\//, ''))
-    const component = pages[componentId]
+    let {status, route, component} = resolve(
+      '/' + url.pathname.replace(/\/page\.json$/, '').replace(/^\//, ''),
+      router,
+      pages,
+    )
 
     let page
     if (component.fetchRemoteState) {
       page = await component.fetchRemoteState({url, route}, app)
+
+      status = page ? 200 : 404
+    }
+    else {
+      status = status || 200
     }
 
+
     if (isJson) {
+      res.setStatus(status)
       res.json({page})
     }
     else {
@@ -74,9 +84,11 @@ function handleApp(app = {}) {
         url: url.pathname,
         title: 'Paul Rumkin',
         route,
+        status,
         page,
       })
 
+      res.setStatus(status)
       res.html(html)
     }
   }

@@ -11,10 +11,11 @@ export default ({history} = {}) => ({
   },
   pageLoad: (url) => (state, actions) => {
     return fetchPage(url.replace(/\/+$/, '') + '/page.json')
-    .then(({result, error}) => {
+    .then(({result: {status, page}, error}) => {
       actions.setState({
         isLoading: false,
-        page: result,
+        status,
+        page,
         error,
       })
     })
@@ -28,11 +29,12 @@ export default ({history} = {}) => ({
       // }
     }
 
-    return merge(state, {url, page: null, isLoading: false, error: null})
+    return merge(state, {url, status: 0, page: null, isLoading: false, error: null})
   },
   pageSet: (url) => (state) => {
     return merge(state, {
       url,
+      status: 0,
       page: null,
       error: null,
       isLoading: false,
@@ -47,16 +49,17 @@ function fetchPage(url) {
     },
   })
   .then(async (res) => {
+    const status = res.statusCode
     const {page} = await res.json()
 
     return {
-      result: page,
+      result: {status, page},
       error: null,
     }
   })
   .catch(error => {
     return {
-      result: null,
+      result: {status: 500, page: null},
       error,
     }
   })
