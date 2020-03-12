@@ -45,7 +45,7 @@ function handleApp(app = {}) {
   return async ({req, res, socket}) => {
     const {url} = req
     const isJson = url.pathname.endsWith('/page.json')
-    const {route = null, component = pages.notFoundPage} = router.resolve(
+    const {route = null, component = pages.errors[404]} = router.resolve(
       '/' + url.pathname.replace(/\/page\.json$/, '').replace(/^\//, ''),
     ) || {}
 

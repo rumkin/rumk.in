@@ -18,6 +18,7 @@ export function goto(fn) {
 
 export const Link = ({href, route, params = {}, ...props}, children) => (state, actions) => {
   href = href || format(route, params || {})
+  
   return (
     <a
       {...props}

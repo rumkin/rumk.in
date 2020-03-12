@@ -1,9 +1,17 @@
 import {r} from '../lib/router'
 
 import {
-  mainPage,
+  home,
+  blog,
+  blogPost,
 } from './pages'
 
 export default r({
-  '/': mainPage,
+  '/': home,
+  '/blog': r({
+    '/': blog,
+    '/[pageId]': r({
+      '/': blogPost,
+    })
+  })
 })

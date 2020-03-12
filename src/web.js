@@ -12,7 +12,7 @@ const state = Object.assign({}, getJson('/state.json'), {
 
 function view (state, actions) {
   const {url} = state
-  let {route = null, component = pages.notFoundPage} = router.resolve(
+  let {route = null, component = pages.errors[404]} = router.resolve(
     '/' + url.replace(/\/page\.json$/, '').replace(/^\//, ''),
   ) || {}
 

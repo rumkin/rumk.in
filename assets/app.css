@@ -38,7 +38,6 @@ a {
   padding: 50px 0;
 }
 
-
 .Hero-header {
   margin: 0;
   font-size: 4em;
@@ -47,6 +46,32 @@ a {
 .Hero-intro {
   margin: 0;
   font-size: 1.3em;
+  color: #999;
+}
+
+.PageHead-Logo {
+  vertical-align: baseline;
+  margin-left: -24px;
+  margin-right: 8px;
+}
+
+.PageHead {
+  display: grid;
+  align-items: center;
+}
+
+.PageHead-body {
+  padding: 24px 0;
+}
+
+.PageHead-header {
+  margin: 0;
+  font-size: 1em;
+}
+
+.PageHead-intro {
+  margin: 0;
+  font-size: 1em;
   color: #999;
 }
 
