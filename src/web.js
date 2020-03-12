@@ -16,7 +16,10 @@ function view (state, actions) {
     '/' + url.replace(/\/page\.json$/, '').replace(/^\//, ''),
   ) || {}
 
-  const status = !route ? 404 : 0
+  let status = route ? 200 : 404
+  if (component.fetchRemoteState) {
+    status = 0
+  }
 
   return component.default({
     status,

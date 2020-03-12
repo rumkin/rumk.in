@@ -10,6 +10,10 @@ export default ({history} = {}) => ({
     return set(state, 'title', value);
   },
   pageLoad: (url) => (state, actions) => {
+    actions.setState({
+      isLoading: true,
+    })
+
     return fetchPage(url.replace(/\/+$/, '') + '/page.json')
     .then(({result: {status, page}, error}) => {
       actions.setState({

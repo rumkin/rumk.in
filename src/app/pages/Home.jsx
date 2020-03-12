@@ -42,11 +42,11 @@ function Loading(state) {
 export default function Home(state, actions) {
   actions.setTitle('Paul Rumkin')
 
-  const {url, isLoading, error, page} = state
+  const {url, isLoading, error, page, status} = state
 
   let content
   if (! page) {
-    if (! isLoading) {
+    if (status === 0 && ! isLoading) {
       actions.pageLoad(url)
     }
     else {
