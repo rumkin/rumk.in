@@ -16,7 +16,7 @@ export default function removeExport({
 
   const modules = []
   for (const {stat, filepath} of iterateDir(dir)) {
-    if (stat.isFile() && filepath.endsWith('.js')) {
+    if (stat.isFile() && (filepath.endsWith('.js') || filepath.endsWith('.jsx'))) {
       modules.push(filepath)
       const content = replaceExports(
         fs.readFileSync(filepath, 'utf8'),
@@ -35,7 +35,7 @@ export default function removeExport({
 
       if (importer) {
         for (const search of normalize(id)) {
-          const resolved = path.resolve(path.dirname(importer), search);
+          const resolved = path.resolve(path.dirname(importer), search)
           if (resolvedIds.has(resolved)) {
             return resolved;
           }
@@ -76,48 +76,49 @@ function replaceExports(content, {functions, classes, variables}, babelConfig) {
 
     switch (node.declaration.type) {
       case 'FunctionDeclaration': {
-        for (const name of functions) {
+        for (const [name, placeholder] of functions) {
           if (name === node.declaration.id.name) {
-            return true
+            return [node, placeholder]
           }
         }
 
-        return false
+        return
       }
       case 'VariableDeclaration': {
-        for (const name of variables) {
-          for (const declaration of node.declaration.declarationss) {
+        for (const [name, placeholder] of variables) {
+          for (const declaration of node.declaration.declarations) {
             if (name === declaration.id.value) {
-              return true
+              return [node, placeholder]
             }
           }
         }
 
-        return false
+        return
       }
       case 'ClassDeclaration': {
-        for (const name of classes) {
+        for (const [name, placeholder] of classes) {
           if (name === node.declaration.id.value) {
-            return true
+            return [node, placeholder]
           }
         }
 
-        return false
+        return
       }
       default:
-        return false
+        return
     }
   }, babelConfig)
 }
 
-function replaceExportNodes(content, filter, babelConfig) {
+function replaceExportNodes(content, matcher, babelConfig) {
   const ast = babel.parse(content, babelConfig)
   const nodes = []
 
   babel.traverse(ast, {
     ExportNamedDeclaration({node}) {
-      if (filter(node) === true) {
-        nodes.push(node)
+      const match = matcher(node)
+      if (match) {
+        nodes.push(match)
       }
     },
   })
@@ -131,8 +132,15 @@ function replaceExportNodes(content, filter, babelConfig) {
 }
 
 function replaceNodesContent(content, nodes) {
-  for (const node of nodes) {
-    content = content.slice(0, node.start) + '\n'.repeat(1 + node.loc.end.line - node.loc.start.line) + content.slice(node.end)
+  for (let [node, placeholder] of nodes) {
+    if (! placeholder) {
+      placeholder = '\n'.repeat(1 + node.loc.end.line - node.loc.start.line)
+    }
+    else if (typeof placeholder === 'function') {
+      placeholder = placeholder(node)
+    }
+
+    content = content.slice(0, node.start) + placeholder + content.slice(node.end)
   }
 
   return content

@@ -11,8 +11,8 @@ import removeExport from './workbench/rollup/remove-export'
 const DEV = process.env.NODE_ENV === 'development'
 
 const output = (filepath = 'index.js') => path.resolve(__dirname, 'build', filepath)
-const onDev = (...exec) => DEV ? (exec() || []) : []
-const onProd = (...exec) => !DEV ? (exec() || []) : []
+const onDev = (exec) => DEV ? (exec() || []) : []
+const onProd = (exec) => !DEV ? (exec() || []) : []
 
 const babelConfig = {
 	babelrc: false,
@@ -20,9 +20,11 @@ const babelConfig = {
 		['@babel/preset-react', {
 			pragma: 'h',
 		}],
-		...onProd(() => ['minify', {
-			mangle: false,
-		}]),
+		...onProd(() => [
+			['minify', {
+				mangle: false,
+			}]
+		]),
 	],
 	plugins: [
 		'@babel/plugin-proposal-export-default-from',
@@ -41,22 +43,31 @@ export default [
 			},
 		],
 		plugins: [
-			...onProd(() => removeExport({
-				dir: 'src/app/pages',
-				functions: ['fetchRemoteState'],
-				babelConfig,
-			})),
+			...onProd(() => [
+				removeExport({
+					dir: 'src/app/pages',
+					functions: [
+						[
+							'fetchRemoteState',
+							(node) => 'export const fetchRemoteState = true' + '\n'.repeat(node.loc.end.line - node.loc.start.line)
+						],
+					],
+					babelConfig,
+				}),
+			]),
 			babel(babelConfig),
 			commonjs(),
 			replace({
 	      // Always production for React and ReactDOM packages
 	      'process.env.NODE_ENV': JSON.stringify('production'),
 	    }),
-			...onProd(() => strip({
-				functions: [
-					'console.*',
-				]
-			})),
+			...onProd(() => [
+				strip({
+					functions: [
+						'console.*',
+					]
+				}),
+			]),
 	    resolve({
 				extensions: [
 					'.js', '.mjs', '.json', '.node', '.jsx',
