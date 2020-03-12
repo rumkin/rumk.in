@@ -1,7 +1,7 @@
 import {app} from 'hyperapp'
 import {createBrowserHistory} from 'history'
 
-import {actions, getJson, resolve, router, pages} from './app'
+import {actions, getJson, pages, router} from './app'
 
 const history = createBrowserHistory()
 
@@ -12,11 +12,11 @@ const state = Object.assign({}, getJson('/state.json'), {
 
 function view (state, actions) {
   const {url} = state
-  let {status, route, component} = resolve(
+  let {route = null, component = pages.notFoundPage} = router.resolve(
     '/' + url.replace(/\/page\.json$/, '').replace(/^\//, ''),
-    router,
-    pages,
-  )
+  ) || {}
+
+  const status = !route ? 404 : 0
 
   return component.default({
     status,

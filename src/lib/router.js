@@ -4,19 +4,18 @@ export class Router {
       value: getRoutes(routes),
       enumerable: false,
     })
-    Object.assign(routes)
+
+    this._routes.forEach((route) => {
+      this[route.pattern] = route
+    })
   }
 
   resolve(url, params = {}) {
     const parts = splitPath(normalizePath(url))
 
-    const result = this._match(parts, params)
+    const route = this._match(parts, params)
 
-    return result || {
-      params: {},
-      component: null,
-      props: {},
-    }
+    return route
   }
 
   _match(url, params) {
@@ -51,9 +50,25 @@ export class Router {
   }
 }
 
-class Component {
-  constructor(c) {
-    this.c = c
+class Route {
+  constructor({
+    pattern,
+    paramName = null,
+    params = {},
+    parse = v => v,
+    props = {},
+    component = null,
+    router = null,
+    capture = false,
+  } = {}) {
+    this.pattern = pattern
+    this.paramName = paramName
+    this.params = params
+    this.parse = parse
+    this.props = props
+    this.component = component
+    this.router = router
+    this.capture = capture
   }
 }
 
@@ -99,34 +114,38 @@ function getRoutes(routes) {
       throw new TypeError(`Invalid route "${route}"}`)
     }
 
-    const item = {
-      route,
-      paramName: null,
-      params: {},
-      parse: v => v,
-      props: {},
-      component: null,
-      router: null,
-      capture: false,
-    }
+    let item
 
-    if (value instanceof Router) {
-      item.router = value
-    }
-    else if (Array.isArray(value)) {
-      item.component = value[0]
-      item.params = {...value[1]}
-    }
-    else if (typeof value === 'function') {
-      item.component = value
-    }
-    else if (value.constructor === Object) {
-      item.component = value.component
-      item.props = {...value.props || {}}
-      item.params = {...value.params || {}}
-      item.parse = value.parse
+    if (value instanceof Route) {
+      item = new Route({
+        ...value,
+        pattern: route
+      })
     }
     else {
+      item = new Route({
+        pattern: route,
+      })
+
+      if (value instanceof Router) {
+        item.router = value
+      }
+      else if (Array.isArray(value)) {
+        item.component = value[0]
+        item.params = {...value[1]}
+      }
+      else if (typeof value === 'function') {
+        item.component = value
+      }
+      else if (value.constructor === Object || ! value.constructor) {
+        item.component = value
+      }
+      else {
+        item = null
+      }
+    }
+
+    if (! item) {
       throw new Error(`Invalid route value "${value}"`)
     }
 

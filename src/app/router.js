@@ -5,5 +5,5 @@ import {
 } from './pages'
 
 export default r({
-  '/': [mainPage, {}],
+  '/': mainPage,
 })
