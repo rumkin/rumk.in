@@ -10,7 +10,7 @@ export default r({
   '/': home,
   '/blog': r({
     '/': blog,
-    '/[pageId]': r({
+    '/[postId]': r({
       '/': blogPost,
     })
   })

@@ -4,7 +4,7 @@ import {Link} from '../components/link'
 import {Inner} from '../layouts/Inner'
 
 export default function BlogPost(state, actions) {
-  const {status, shell} = state
+  const {status, routeParams, shell} = state
 
   shell.doc.title = 'Blog Post'
 
@@ -15,6 +15,9 @@ export default function BlogPost(state, actions) {
       </h1>
       <p>
         Status: {status}
+      </p>
+      <p>
+        Post ID: {routeParams.postId}
       </p>
     </Inner>
   )
