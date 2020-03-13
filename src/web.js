@@ -40,6 +40,7 @@ function view(state, actions) {
   const {
     route = null,
     component = pages.errors[404],
+    params = {},
   } = router.resolve(pathname) || {}
 
   let status = route ? 200 : 404
@@ -50,6 +51,7 @@ function view(state, actions) {
   return component.default({
     shell,
     url: shell.url,
+    routeParams: params,
     status,
     route,
     ...state,

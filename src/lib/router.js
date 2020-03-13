@@ -39,6 +39,7 @@ export class Router {
     }
     else {
       return {
+        route,
         component: route.component,
         params: {
           ...route.params,
