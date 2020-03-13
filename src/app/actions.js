@@ -1,20 +1,18 @@
 import {set, merge} from '../lib/imm'
 
-export default ({history} = {}) => ({
+export default ({history, shell} = {}) => ({
   setState: (newState) => (state) => merge(state, newState),
   setTitle: (value) => (state) => {
-    if (state.isClient) {
-      document.title = value;
-    }
-
-    return set(state, 'title', value);
+    shell.doc.title = value
   },
   pageLoad: (url) => (state, actions) => {
     actions.setState({
       isLoading: true,
     })
 
-    return fetchPage(url.replace(/\/+$/, '') + '/page.json')
+    return fetchPage(shell, new URL(
+      url.pathname.replace(/\/+$/, '') + '/page.json', url
+    ))
     .then(({result: {status, page}, error}) => {
       actions.setState({
         isLoading: false,
@@ -25,7 +23,7 @@ export default ({history} = {}) => ({
     })
   },
   pageGoto: (url) => (state) => {
-    if (state.isClient) {
+    if (! shell.isStatic) {
       // if (history.location.pathname + history.location.search !== url) {
         history.push(url);
         // TODO Scroll to top or to anchor.
@@ -33,11 +31,11 @@ export default ({history} = {}) => ({
       // }
     }
 
-    return merge(state, {url, status: 0, page: null, isLoading: false, error: null})
+    return merge(state, {status: 0, page: null, isLoading: false, error: null})
   },
-  pageSet: (url) => (state) => {
+  pageNavigated: (to, from) => (state) => {
     return merge(state, {
-      url,
+      url: to,
       status: 0,
       page: null,
       error: null,
@@ -46,8 +44,8 @@ export default ({history} = {}) => ({
   }
 });
 
-function fetchPage(url) {
-  return fetch(url, {
+function fetchPage(shell, url) {
+  return shell.fetch(url, {
     headers: {
       'accept': 'application/json',
     },

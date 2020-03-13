@@ -4,9 +4,9 @@ import {Link} from '../components/link'
 import {Inner} from '../layouts/Inner'
 
 export default function BlogPost(state, actions) {
-  actions.setTitle('Blog')
-  
-  const {status} = state
+  const {status, shell} = state
+
+  shell.doc.title = 'Blog Post'
 
   return (
     <Inner>

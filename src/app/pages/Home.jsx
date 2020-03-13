@@ -40,14 +40,18 @@ function Loading(state) {
 }
 
 export default function Home(state, actions) {
-  actions.setTitle('Paul Rumkin')
+  const {doc} = state.shell
+  doc.title = 'Paul Rumkin'
 
-  const {url, isLoading, error, page, status} = state
+  doc.openGraph('title', 'Paul Rumkin')
+  doc.openGraph('description', 'Personal website')
+
+  const {isLoading, error, page, status} = state
 
   let content
   if (! page) {
     if (status === 0 && ! isLoading) {
-      actions.pageLoad(url)
+      actions.pageLoad(state.url)
     }
     else {
       content = <Loading state={state} />

@@ -3,8 +3,8 @@ import {h} from 'hyperapp';
 import {Link} from '../components/link';
 import {Inner} from '../layouts/Inner'
 
-export default function Blog(state, actions) {
-  actions.setTitle('Blog')
+export default function Blog({shell}, actions) {
+  shell.doc.title = 'Blog'
 
   return (
     <Inner>

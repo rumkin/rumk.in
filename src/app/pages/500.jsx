@@ -3,8 +3,8 @@ import {h} from 'hyperapp'
 import {Link} from '../components/link'
 import {Plain} from '../layouts/plain'
 
-export default function E500(state, actions) {
-  actions.setTitle('Unknown Error')
+export default function E500({shell}, actions) {
+  shell.doc.title = 'Unknown Error'
 
   return (
     <Plain>
