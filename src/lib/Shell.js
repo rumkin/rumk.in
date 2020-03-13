@@ -29,7 +29,7 @@ export class Shell {
     return url
   }
 
-  fetch(url) {
-    return fetch(url)
+  fetch(url, opts) {
+    return fetch(url, opts)
   }
 }
