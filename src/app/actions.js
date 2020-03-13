@@ -24,14 +24,10 @@ export default ({history, shell} = {}) => ({
   },
   pageGoto: (url) => (state) => {
     if (! shell.isStatic) {
-      // if (history.location.pathname + history.location.search !== url) {
-        history.push(url);
-        // TODO Scroll to top or to anchor.
-        window.scrollTo(0, 0);
-      // }
+      history.push(url)
+      // TODO Scroll to top or to anchor.
+      window.scrollTo(0, 0)
     }
-
-    return merge(state, {status: 0, page: null, isLoading: false, error: null})
   },
   pageNavigated: (to, from) => (state) => {
     return merge(state, {
