@@ -61,7 +61,7 @@ function handleApp(app = {}) {
     let page
     let status = route ? 200 : 404
     if (component.fetchRemoteState) {
-      page = await component.fetchRemoteState({url, params, shell}, app)
+      page = await component.fetchRemoteState({url, params}, app)
       status = page ? 200 : 404
     }
 
