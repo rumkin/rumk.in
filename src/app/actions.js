@@ -60,7 +60,7 @@ export default ({history, shell, cache, heights} = {}) => {
         window.scrollTo(0, 0)
       }
     },
-    pageNavigated: ({to, from, stateId}) => (state) => {
+    pageNavigated: ({to, from, stateId, height}) => (state) => {
       if (! cache.has(stateId)) {
         cache.set(stateId, {
           stateId,
@@ -70,6 +70,7 @@ export default ({history, shell, cache, heights} = {}) => {
           error: null,
           isLoading: false,
         })
+        heights.set(height, stateId)
       }
 
       return cache.get(stateId)
