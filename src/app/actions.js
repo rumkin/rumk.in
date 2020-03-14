@@ -84,7 +84,7 @@ function fetchPage(shell, url) {
     },
   })
   .then(async (res) => {
-    const status = res.statusCode
+    const status = res.status
     const {page} = await res.json()
 
     return {
