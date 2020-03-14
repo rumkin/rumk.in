@@ -1,44 +1,81 @@
 import {set, merge} from '../lib/imm'
+import fooid from '../lib/fooid'
 
-export default ({history, shell} = {}) => ({
-  setState: (newState) => (state) => merge(state, newState),
-  setTitle: (value) => (state) => {
-    shell.doc.title = value
-  },
-  pageLoad: (url) => (state, actions) => {
-    actions.setState({
-      isLoading: true,
-    })
-
-    return fetchPage(shell, new URL(
-      url.pathname.replace(/\/+$/, '') + '/page.json', url
-    ))
-    .then(({result: {status, page}, error}) => {
+export default ({history, shell, cache, heights} = {}) => {
+  return {
+    setState: ({update, stateId}) => (state) => {
+      if (stateId === state.stateId) {
+        const nextState = merge(state, update)
+        cache.set(stateId, nextState)
+        return nextState
+      }
+      else {
+        cache.set(stateId, merge(cache.get(stateId), update))
+        return state
+      }
+    },
+    setTitle: (value) => (state) => {
+      shell.doc.title = value
+    },
+    pageLoad: (url) => ({stateId}, actions) => {
       actions.setState({
-        isLoading: false,
-        status,
-        page,
-        error,
+        stateId,
+        update: {
+          isLoading: true,
+        },
       })
-    })
-  },
-  pageGoto: (url) => (state) => {
-    if (! shell.isStatic) {
-      history.push(url)
-      // TODO Scroll to top or to anchor.
-      window.scrollTo(0, 0)
+
+      return fetchPage(shell, new URL(
+        url.pathname.replace(/\/+$/, '') + '/page.json', url
+      ))
+      .then(({result: {status, page}, error}) => {
+        actions.setState({
+          update: {
+            isLoading: false,
+            status,
+            page,
+            error,
+          },
+          stateId,
+        })
+      })
+    },
+    pageGoto: (url) => (state) => {
+      if (! shell.isStatic) {
+        const stateId = fooid()
+        const height = history.length + 1
+
+        history.push(url, {stateId, height})
+
+        for (const [h, s] of heights.entries()) {
+          if (h >= height) {
+            cache.delete(s)
+            heights.delete(h)
+          }
+        }
+
+        heights.set(height, stateId)
+
+        // TODO Scroll to top or to anchor.
+        window.scrollTo(0, 0)
+      }
+    },
+    pageNavigated: ({to, from, stateId}) => (state) => {
+      if (! cache.has(stateId)) {
+        cache.set(stateId, {
+          stateId,
+          url: to,
+          status: 0,
+          page: null,
+          error: null,
+          isLoading: false,
+        })
+      }
+
+      return cache.get(stateId)
     }
-  },
-  pageNavigated: (to, from) => (state) => {
-    return merge(state, {
-      url: to,
-      status: 0,
-      page: null,
-      error: null,
-      isLoading: false,
-    });
   }
-});
+}
 
 function fetchPage(shell, url) {
   return shell.fetch(url, {
