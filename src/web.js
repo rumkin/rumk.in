@@ -46,7 +46,7 @@ history.listen((location, action) => {
   const from = shell.url
 
   shell.navigate(to)
-  app.pageNavigated({to, from, stateId: location.state.stateId})
+  app.pageNavigated({to, from, ...location.state})
 })
 
 function view(state, actions) {
