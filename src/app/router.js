@@ -1,17 +1,16 @@
-import {r} from '../lib/router'
+import createRouter from '../lib/createRouter'
+import pages from './pages'
 
-import {
-  home,
-  blog,
-  blogPost,
-} from './pages'
-
-export default r({
-  '/': home,
-  '/blog': r({
-    '/': blog,
-    '/[postId]': r({
-      '/': blogPost,
-    })
-  })
+export default createRouter({
+  '/_/404': {
+    default() {
+      return '404'
+    },
+  },
+  '/_/500': {
+    default() {
+      return '500'
+    },
+  },
+  ...pages
 })

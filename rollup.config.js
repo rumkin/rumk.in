@@ -6,7 +6,10 @@ import replace from 'rollup-plugin-replace'
 import resolve from 'rollup-plugin-node-resolve'
 import strip from '@rollup/plugin-strip'
 
-import removeExport from './workbench/rollup/remove-export'
+import removeExport from './workbench/rollup-plugins/remove-export'
+import overwrite from './workbench/rollup-plugins/overwrite'
+
+import generatePages from './workbench/rollup/generatePages'
 
 const DEV = process.env.NODE_ENV === 'development'
 
@@ -55,6 +58,9 @@ export default [
 					babelConfig,
 				}),
 			]),
+			overwrite({
+				'src/app/pages.js': generatePages('src/app/pages'),
+			}),
 			babel(babelConfig),
 			commonjs(),
 			replace({
@@ -75,4 +81,4 @@ export default [
 			}),
 		],
 	},
-];
+]

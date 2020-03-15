@@ -1,7 +1,7 @@
 import {h} from 'hyperapp'
 
-import {Link} from '../components/link'
-import {Plain} from '../layouts/plain'
+import {Link} from '../../components/link'
+import {Plain} from '../../layouts/plain'
 
 export default function E404({shell}, actions) {
   shell.doc.title = 'Nothing Found'

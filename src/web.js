@@ -5,7 +5,8 @@ import {Shell} from './lib/Shell'
 import {DynamicDocument} from './lib/document'
 import fooid from './lib/fooid'
 
-import {actions, getJson, pages, router} from './app'
+import {actions, getJson} from './app'
+import router from './app/router'
 
 const history = createBrowserHistory()
 
@@ -51,21 +52,22 @@ history.listen((location, action) => {
 
 function view(state, actions) {
   const {pathname} = shell.url
-  const {
-    route = null,
-    component = pages.errors[404],
-    params = {},
-  } = router.resolve(pathname) || {}
+  const route = router.resolve(pathname) || null
 
-  let status = route ? 200 : 404
+  const component = route ? route.value : router.resolve('/_/404').value
+  const isFound = !! route
+  let status
   if (component.fetchRemoteState) {
-    status = 0
+    status = isFound ? 0 : 404
+  }
+  else {
+    status = isFound ? 200 : 404
   }
 
   return component.default({
     shell,
     url: shell.url,
-    routeParams: params,
+    route,
     status,
     route,
     ...state,

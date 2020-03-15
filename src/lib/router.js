@@ -1,5 +1,5 @@
 export class Router {
-  constructor(routes) {
+  constructor(routes = {}) {
     Object.defineProperty(this, '_routes', {
       value: getRoutes(routes),
       enumerable: false,
@@ -10,6 +10,18 @@ export class Router {
     })
   }
 
+  addRoute(route) {
+    if (route instanceof Route === false) {
+      throw new TypeError(`Route should be a Route`)
+    }
+    else if (route.pattern in this) {
+      throw new Error(`Pattern ${route.pattern} already exists`)
+    }
+
+    this._routes.push(pattern)
+    this[route.pattern] = route
+  }
+
   resolve(url, params = {}) {
     const parts = splitPath(normalizePath(url))
 
@@ -18,15 +30,15 @@ export class Router {
     return route
   }
 
-  _match(url, params) {
+  _match(url, params, pattern = []) {
     for (const route of this._routes) {
       if (route.match(url)) {
-        return this._handleMatch(url, route, params)
+        return this._handleMatch(url, route, params, pattern)
       }
     }
   }
 
-  _handleMatch(url, route, params) {
+  _handleMatch(url, route, params, pattern) {
     if (route.paramName) {
       params = {
         ...params,
@@ -35,17 +47,16 @@ export class Router {
     }
 
     if (route.router) {
-      return route.router._match(url.slice(1), params)
+      return route.router._match(url.slice(1), params, [...pattern, route.pattern])
     }
     else {
       return {
-        route,
-        component: route.component,
+        pattern: pattern.join(''),
         params: {
           ...route.params,
           ...params,
         },
-        props: route.props,
+        value: route.value,
       }
     }
   }
@@ -57,8 +68,8 @@ class Route {
     paramName = null,
     params = {},
     parse = v => v,
-    props = {},
-    component = null,
+    match = () => true,
+    value = null,
     router = null,
     capture = false,
   } = {}) {
@@ -66,8 +77,8 @@ class Route {
     this.paramName = paramName
     this.params = params
     this.parse = parse
-    this.props = props
-    this.component = component
+    this.match = match
+    this.value = value
     this.router = router
     this.capture = capture
   }
@@ -124,25 +135,17 @@ function getRoutes(routes) {
       })
     }
     else {
-      item = new Route({
-        pattern: route,
-      })
-
       if (value instanceof Router) {
-        item.router = value
+        item = new Route({
+          pattern: route,
+          router: value,
+        })
       }
-      else if (Array.isArray(value)) {
-        item.component = value[0]
-        item.params = {...value[1]}
-      }
-      else if (typeof value === 'function') {
-        item.component = value
-      }
-      else if (value.constructor === Object || ! value.constructor) {
-        item.component = value
-      }
-      else {
-        item = null
+      else if (value) {
+        item = new Route({
+          pattern: route,
+          value,
+        })
       }
     }
 

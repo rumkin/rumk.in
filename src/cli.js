@@ -2,21 +2,32 @@ import {Shell} from './lib/Shell'
 import {StaticDocument} from './lib/document'
 
 import layout from './app/layout'
-import {pages, router} from './app'
+import router from './app/router'
 import renderStatic from './app/renderStatic'
 
 async function renderApp(shell, app = {}) {
   const {url} = shell
   const isJson = url.pathname.endsWith('/page.json')
-  const {route = null, params, component = pages.errors[404]} = router.resolve(
+  const route = router.resolve(
     '/' + url.pathname.replace(/\/page\.json$/, '').replace(/^\//, ''),
-  ) || {}
+  ) || null
 
-  let page
-  let status = route ? 200 : 404
+  const component = route ? route.value : router.resolve('/_/404')
+  const isFound = !! route
+
+  let status
+  let page = {}
   if (component.fetchRemoteState) {
-    page = await component.fetchRemoteState({url, params}, app)
-    status = page ? 200 : 404
+    page = await component.fetchRemoteState({url, route}, app)
+    if (isFound) {
+      status = page ? 200 : 404
+    }
+    else {
+      status = 404
+    }
+  }
+  else {
+    status = isFound ? 200 : 404
   }
 
   let content
@@ -27,7 +38,7 @@ async function renderApp(shell, app = {}) {
     content = renderStatic(component.default, {
       shell,
       url: shell.url,
-      routeParams: params,
+      route,
       status,
       isLoading: false,
       page,

@@ -54,15 +54,26 @@ function handleApp(app = {}) {
     })
 
     const isJson = url.pathname.endsWith('/page.json')
-    const {route = null, params, component = pages.errors[404]} = router.resolve(
+    const route = router.resolve(
       '/' + url.pathname.replace(/\/page\.json$/, '').replace(/^\//, ''),
-    ) || {}
+    ) || null
 
-    let page
-    let status = route ? 200 : 404
+    const component = route ? route.value : router.resolve('/_/404').value
+    const isFound = !! route
+
+    let status
+    let page = {}
     if (component.fetchRemoteState) {
-      page = await component.fetchRemoteState({url, params}, app)
-      status = page ? 200 : 404
+      page = await component.fetchRemoteState({url, route}, app)
+      if (isFound) {
+        status = page ? 200 : 404
+      }
+      else {
+        status = 404
+      }
+    }
+    else {
+      status = isFound ? 200 : 404
     }
 
     if (isJson) {
@@ -87,7 +98,7 @@ function handleApp(app = {}) {
       const html = renderStatic(component.default, {
         shell,
         url: shell.url,
-        routeParams: params,
+        route,
         status,
         isLoading: false,
         page,
