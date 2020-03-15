@@ -7,10 +7,12 @@ import renderStatic from './app/renderStatic'
 
 async function renderApp(shell, app = {}) {
   const {url} = shell
-  const isJson = url.pathname.endsWith('/page.json')
-  const route = router.resolve(
-    '/' + url.pathname.replace(/\/page\.json$/, '').replace(/^\//, ''),
-  ) || null
+
+  const isJson = url.pathname.endsWith('page.json')
+  const jsonPath = isJson ? url.pathname : getJsonPath(url.pathname)
+  const pagePath = isJson ? url.pathname.slice(0, -9) : url.pathname.replace(/\/+$/, '')
+
+  const route = router.resolve(pagePath) || null
 
   const component = route ? route.value : router.resolve('/_/404')
   const isFound = !! route
@@ -62,6 +64,10 @@ async function main(argv) {
   const content = await renderApp(shell)
 
   console.log(content)
+}
+
+function getJsonPath(pathname) {
+  return `${pathname.replace(/\/+$/, '')}/page.json`
 }
 
 main(process.argv)

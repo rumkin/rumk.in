@@ -5,8 +5,9 @@ import {Shell} from './lib/Shell'
 import {DynamicDocument} from './lib/document'
 import fooid from './lib/fooid'
 
-import {actions, getJson} from './app'
+import actions from './app/actions'
 import router from './app/router'
+import {getJson} from './app/store'
 
 const history = createBrowserHistory()
 
