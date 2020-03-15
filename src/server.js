@@ -1,5 +1,6 @@
 import path from 'path'
 
+import Plant from '@plant/plant'
 import {createServer} from '@plant/http'
 import {serveDir} from '@plant/fs'
 

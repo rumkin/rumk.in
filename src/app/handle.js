@@ -50,7 +50,7 @@ export default function handleApp({
     else {
       res.push(
         new Plant.Response({
-          url: new URL(`${url.pathname}/page.json`, req.url),
+          url: new URL(`${pagePath}/page.json`, req.url),
           headers: {
             'content-type': 'application/json',
           },

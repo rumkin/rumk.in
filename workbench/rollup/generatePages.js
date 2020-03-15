@@ -44,7 +44,7 @@ function collectJs(root, extname = '.js') {
 
   for (const {filepath, file, stat} of iterateDir(root)) {
     if (stat.isFile() && path.extname(file) === extname) {
-      pages[filepath.slice(root.length)] = filepath.slice(root.length + 1)
+      pages[filepath.slice(root.length).slice(0, -extname.length)] = filepath.slice(root.length + 1)
     }
   }
 

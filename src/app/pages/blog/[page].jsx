@@ -4,14 +4,14 @@ import {Link} from '../../components/link'
 import {Inner} from '../../layouts/Inner'
 
 export default function BlogPost(state, actions) {
-  const {status, route, shell} = state
+  const {status, route, shell, page} = state
 
   shell.doc.title = 'Blog Post'
 
   return (
     <Inner>
       <h1>
-        Blog Page
+        {page.title || 'Post not found'}
       </h1>
       <p>
         Status: {status}
@@ -23,22 +23,18 @@ export default function BlogPost(state, actions) {
   )
 }
 
-export async function fetchRemoteState({route}, services) {
-  // const {page = '1'} = route.params
-  //
-  // if (! page.match(/^\d$/)) {
-  //   return
-  // }
-  //
-  // const articles = await services.db.list(
-  //   'blog:previews',
-  //   {
-  //     page: parseInt(page, 10),
-  //     count: 10,
-  //   }
-  // )
-  //
-  // return {
-  //   articles,
-  // }
+export async function fetchRemoteState({route}) {
+  return {
+    title: `Page ${route.params.page}`,
+    body: `
+      This is a page
+    `,
+  }
+}
+
+export async function listPages() {
+  return [
+    {page: 1},
+    {page: 2},
+  ]
 }

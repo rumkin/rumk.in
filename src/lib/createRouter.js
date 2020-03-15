@@ -1,14 +1,14 @@
 import {Router} from './router'
 
 export default function createRouter(structure) {
-  const normalized = normalizeStructure(structure)
+  const normalized = normalizeRoutes(structure)
 
   const tree = flattenTree(structureIntoTree(normalized))
 
   return routerFromTree(tree)
 }
 
-function structureIntoTree(normalized) {
+export function structureIntoTree(normalized) {
   const root = {routes:{}}
 
   for (const item of normalized) {
@@ -29,7 +29,7 @@ function structureIntoTree(normalized) {
   return root.routes
 }
 
-function flattenTree(tree) {
+export function flattenTree(tree) {
   const newTree = {}
   for (const [k, v] of Object.entries(tree)) {
     if ('routes' in v) {
@@ -49,7 +49,7 @@ function flattenTree(tree) {
   return newTree
 }
 
-function routerFromTree(tree) {
+export function routerFromTree(tree) {
   const nextTree = {}
   for (const [k, v] of Object.entries(tree)) {
     if ('routes' in v) {
@@ -63,17 +63,16 @@ function routerFromTree(tree) {
   return new Router(nextTree)
 }
 
-function normalizeStructure(structure) {
+export function normalizeRoutes(structure) {
   const result = []
 
   for (const [filepath, component] of Object.entries(structure)) {
     const basename = pathBasename(filepath)
-    const ext = pathExtname(filepath)
-    const indexFile = `index${ext}`
+    const indexFile = 'index'
 
     let route = filepath
     if (basename !== indexFile) {
-      route = `${route.slice(0, -ext.length)}/${indexFile}`
+      route = `${route}/${indexFile}`
     }
 
     route = route.slice(1).split('/').map((p) => {
@@ -99,9 +98,4 @@ function normalizeStructure(structure) {
 function pathBasename(file) {
   const i = file.lastIndexOf('/')
   return i > -1 ? file.slice(i + 1) : file
-}
-
-function pathExtname(file) {
-  const i = file.lastIndexOf('.')
-  return i > -1 ? file.slice(i) : file
 }

@@ -8,7 +8,7 @@ const root = __dirname + '/pages'
 
 for (const {filepath, file, stat} of iterateDir(root)) {
   if (stat.isFile() && path.extname(file) === '.js') {
-    pages[filepath.slice(root.length)] = require(filepath)
+    pages[filepath.slice(root.length).slice(0, -3)] = require(filepath)
   }
 }
 
