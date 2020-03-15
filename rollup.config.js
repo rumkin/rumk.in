@@ -59,7 +59,7 @@ export default [
 				}),
 			]),
 			overwrite({
-				'src/app/pages.js': generatePages('src/app/pages'),
+				'src/app/pages.js': generatePages('src/app/pages', 'src/app/'),
 			}),
 			babel(babelConfig),
 			commonjs(),
