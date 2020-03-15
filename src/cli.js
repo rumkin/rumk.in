@@ -1,69 +1,51 @@
-import {Shell} from './lib/Shell'
-import {StaticDocument} from './lib/document'
+import {Request, Response} from '@plant/plant'
 
-import layout from './app/layout'
 import router from './app/router'
-import renderStatic from './app/renderStatic'
+import handleApp from './app/handle'
 
-async function renderApp(shell, app = {}) {
-  const {url} = shell
+async function render(argv) {
+  const config = await import(process.cwd() + '/config.json')
+  const url = new URL(argv[0] || '/', `${config.protocol}://${config.host}`)
 
-  const isJson = url.pathname.endsWith('page.json')
-  const jsonPath = isJson ? url.pathname : getJsonPath(url.pathname)
-  const pagePath = isJson ? url.pathname.slice(0, -9) : url.pathname.replace(/\/+$/, '')
+  const handle = handleApp({
+    app: {},
+    router,
+  })
 
-  const route = router.resolve(pagePath) || null
+  const req = new Request({url})
+  const res = new Response({url})
 
-  const component = route ? route.value : router.resolve('/_/404')
-  const isFound = !! route
+  await handle({req, res})
 
-  let status
-  let page = {}
-  if (component.fetchRemoteState) {
-    page = await component.fetchRemoteState({url, route}, app)
-    if (isFound) {
-      status = page ? 200 : 404
-    }
-    else {
-      status = 404
-    }
-  }
-  else {
-    status = isFound ? 200 : 404
+  if (! res.hasBody) {
+    console.error('Nothing returned')
+    return 1
   }
 
-  let content
-  if (isJson) {
-    content = JSON.stringify({page})
-  }
-  else {
-    content = renderStatic(component.default, {
-      shell,
-      url: shell.url,
-      route,
-      status,
-      isLoading: false,
-      page,
-    })
-  }
+  console.log(res.body)
+}
 
-  return content
+const actions = {
+  render,
+  help() {
+    return this.usage()
+  },
+  usage() {
+    console.log('Usage is:')
+    console.log('')
+    console.log('- render <page>')
+  }
 }
 
 async function main(argv) {
-  const config = await import(process.cwd() + '/config.json')
-  const url = new URL(argv[2] || '/', `${config.protocol}://${config.host}`)
+  const action = argv[2]
 
-  const shell = new Shell({
-    doc: new StaticDocument,
-    url,
-    isStatic: true,
-    hasViewport: false,
-  })
-
-  const content = await renderApp(shell)
-
-  console.log(content)
+  if (action in actions) {
+    return actions[action](argv.slice(3))
+  }
+  else {
+    return actions.usage(argv.slice(2))
+  }
 }
 
 function getJsonPath(pathname) {
