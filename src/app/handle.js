@@ -11,57 +11,99 @@ export default function handleApp({
   router,
 }) {
   return async ({req, res}) => {
-    const {url} = req
-
-    const {route, status, page} = await loadPage(
-      url,
-      router,
-      app,
-    )
-
-    if (url.pathname.endsWith('/page.json')) {
-      res.setStatus(status)
-      res.json({page})
+    try {
+      await respond({
+        res,
+        app,
+        router,
+      })
     }
-    else {
-      const shell = new Shell({
-        doc: new StaticDocument,
-        url,
-        isStatic: true,
-        hasViewport: false,
-      })
-
-      res.push(
-        new Plant.Response({
-          url: new URL(
-            getJsonPath(url.pathname),
-            req.url,
-          ),
-          headers: {
-            'content-type': 'application/json',
-          },
-          body: JSON.stringify({page}),
-        })
-      )
-
-      // TODO replace with shell.doc.styles and shell.doc.scripts
-      res.push('/assets/app.js')
-      res.push('/assets/app.css')
-
-      const html = renderStatic(route.value.default, {
-        shell,
-        url: shell.url,
+    catch (error) {
+      console.error(error)
+      const route = router.resolve('/_/500')
+      writeResponse({
+        res,
         route,
-        status,
-        isLoading: false,
-        page,
+        status: 500,
+        error,
       })
-
-      res.setStatus(status)
-      res.html(html)
     }
   }
 }
+
+async function respond({
+  res,
+  app,
+  router,
+}) {
+  const {url} = res
+  const {route, status, page} = await loadPage(
+    url,
+    router,
+    app,
+  )
+
+  if (url.pathname.endsWith('/page.json')) {
+    res.setStatus(status)
+    res.json({page})
+  }
+  else {
+    writeResponse({
+      res,
+      route,
+      status,
+      page,
+    })
+  }
+}
+
+function writeResponse({
+  res,
+  route,
+  status,
+  page = null,
+  error = null
+}) {
+  const {url} = res
+
+  const shell = new Shell({
+    doc: new StaticDocument,
+    url,
+    isStatic: true,
+    hasViewport: false,
+  })
+
+  const html = renderStatic(route.value.default, {
+    shell,
+    url: shell.url,
+    route,
+    status,
+    isLoading: false,
+    page,
+    error,
+  })
+
+  res.push(
+    new Plant.Response({
+      url: new URL(
+        getJsonPath(url.pathname),
+        url,
+      ),
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({page}),
+    })
+  )
+
+  // TODO replace with shell.doc.styles and shell.doc.scripts
+  res.push('/assets/app.js')
+  res.push('/assets/app.css')
+
+  res.setStatus(status)
+  res.html(html)
+}
+
 async function loadPage(url, router, app) {
   const route = router.resolve(
     normalizePathname(url.pathname)

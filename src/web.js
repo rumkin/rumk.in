@@ -52,11 +52,23 @@ history.listen((location, action) => {
 })
 
 function view(state, actions) {
-  if (state.status === 404) {
-    return render404(state, actions)
-  }
+  try {
+    if (state.status === 404) {
+      return render404(state, actions)
+    }
+    else if (state.status === 500) {
+      return render500(state, actions)
+    }
 
-  return renderPage(state, actions)
+    return renderPage(state, actions)
+  }
+  catch (error) {
+    console.error(error)
+    return render500({
+      state,
+      ...error,
+    }, actions)
+  }
 }
 
 function renderPage(state, actions) {
@@ -73,7 +85,15 @@ function renderPage(state, actions) {
 }
 
 function render404(state, actions) {
-  const route = router.resolve('/_/404')
+  return renderError(404, state, actions)
+}
+
+function render500(state, actions) {
+  return renderError(500, state, actions)
+}
+
+function renderError(status, state, actions) {
+  const route = router.resolve(`/_/${status}`)
   return route.value.default({
     shell,
     url: shell.url,
