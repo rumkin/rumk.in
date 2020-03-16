@@ -24,7 +24,7 @@ export default function BlogPost(state, actions) {
 }
 
 export async function fetchRemoteState({route}) {
-  if (! ['1', '2'].includes(route.params.page)) {
+  if (! [1, 2].includes(route.params.page)) {
     return
   }
   return {

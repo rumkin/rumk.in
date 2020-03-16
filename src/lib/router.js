@@ -99,7 +99,7 @@ function splitPath(p) {
   }
 }
 
-const paramRe = /^\[(\.{3})?([^\]\?]+)?(\??)\]$/
+const paramRe = /^\[(\.{3}|\+|:)?([^\]\?]+)?(\??)\]$/
 
 function parseParam(route) {
   const match = route.match(paramRe)
@@ -107,15 +107,30 @@ function parseParam(route) {
     return {}
   }
 
-  let capture = !!match[1]
+  let marker = !!match[1]
   let param = match[2]
   let optional = !!match[3]
 
-  if (! capture && ! param && ! optional) {
+  if (! marker && ! param && ! optional) {
     throw new Error(`Invalid route "${route}"`)
   }
 
-  return {param, capture, optional}
+  let type = getRouteType(match[1])
+
+  return {param, type, optional}
+}
+
+function getRouteType(marker) {
+  switch (marker) {
+    case '...':
+      return 'capturing'
+    case '+':
+      return 'number'
+    case ':':
+      return 'symbol'
+    default:
+      return 'regular'
+  }
 }
 
 function getRoutes(routes) {
@@ -153,7 +168,7 @@ function getRoutes(routes) {
       throw new Error(`Invalid route value "${value}"`)
     }
 
-    const {param, capture, optional} = parseParam(route.slice(1))
+    const {param, type, optional} = parseParam(route.slice(1))
 
     if (route === '/') {
       item.match = (p) => p.length === 0
@@ -162,7 +177,7 @@ function getRoutes(routes) {
         throw new TypeError(`Bad value for root "${route}"`)
       }
     }
-    else if (capture) {
+    else if (type === 'capture') {
       item.paramName = param
       item.capture = true
       item.match = optional ? () => true : (p) => p.length > 1
@@ -173,7 +188,26 @@ function getRoutes(routes) {
     }
     else if (param) {
       item.paramName = param
-      item.match = optional ? () => true : (p) => p.length > 0
+      let match
+
+      switch (type) {
+        case 'number': {
+          item.parse = (v) => parseInt(v, 10)
+          match = (v) => /^\d+$/.test(v)
+          break
+        }
+        case 'symbol': {
+          match = (v) => /^[a-z]([a-z0-9-]*[a-z0-9])?$/i.test(v)
+          break
+        }
+        default:
+          match = () => true
+          break
+      }
+
+      item.match = optional
+        ? (p) => (!p || match(p))
+        : (p) => (p.length > 0 && match(p))
 
       if (item.router && optional) {
         throw new TypeError(`Bad value for optional route "${route}"`)
