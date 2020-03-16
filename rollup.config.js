@@ -37,7 +37,7 @@ const babelConfig = {
 
 export default [
 	{
-		input: 'src/web.js',
+		input: 'src/client.js',
 		output: [
 			{
 				file: output('assets/app.js'),

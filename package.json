@@ -26,7 +26,7 @@
   },
   "scripts": {
     "clean": "rm -rf build",
-    "render": "npm run build && node cli.js / > build/index.html && node cli.js 404 > build/404.html",
+    "render": "npm run build && node bin.js / > build/index.html && node bin.js 404 > build/404.html",
     "build": "npm run clean && npm run build:server && npm run build:client && npm run copy",
     "build:dev": "NODE_ENV=development npm run build",
     "copy": "cp -r assets/* build/assets",
