@@ -52,25 +52,49 @@ history.listen((location, action) => {
 })
 
 function view(state, actions) {
-  const {pathname} = shell.url
-  const route = router.resolve(pathname) || null
-
-  const component = route ? route.value : router.resolve('/_/404').value
-  const isFound = !! route
-  let status
-  if (component.fetchRemoteState) {
-    status = isFound ? 0 : 404
-  }
-  else {
-    status = isFound ? 200 : 404
+  if (state.status === 404) {
+    return render404(state, actions)
   }
 
-  return component.default({
+  return renderPage(state, actions)
+}
+
+function renderPage(state, actions) {
+  const {url} = shell
+  const {route, status} = resolve(url.pathname, router)
+
+  return route.value.default({
+    shell,
+    url,
+    route,
+    status,
+    ...state,
+  }, actions)
+}
+
+function render404(state, actions) {
+  const route = router.resolve('/_/404')
+  return route.value.default({
     shell,
     url: shell.url,
     route,
-    status,
-    route,
     ...state,
   }, actions)
+}
+
+function resolve(pathname, router) {
+  const route = router.resolve(pathname)
+
+  if (! route) {
+    return {
+      route: router.resolve('/_/404'),
+      status: 404,
+    }
+  }
+  else {
+    return {
+      route,
+      status: route.value.fetchRemoteState ? 0 : 200
+    }
+  }
 }

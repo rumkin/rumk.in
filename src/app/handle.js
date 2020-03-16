@@ -12,45 +12,31 @@ export default function handleApp({
 }) {
   return async ({req, res}) => {
     const {url} = req
-    const shell = new Shell({
-      doc: new StaticDocument,
+
+    const {route, status, page} = await loadPage(
       url,
-      isStatic: true,
-      hasViewport: false,
-    })
+      router,
+      app,
+    )
 
-    const isJson = url.pathname.endsWith('page.json')
-    const jsonPath = isJson ? url.pathname : getJsonPath(url.pathname)
-    const pagePath = isJson ? url.pathname.slice(0, -9) : url.pathname.replace(/\/+$/, '')
-
-    const route = router.resolve(pagePath) || null
-
-    const component = route ? route.value : router.resolve('/_/404').value
-    const isFound = !! route
-
-    let status
-    let page = {}
-    if (component.fetchRemoteState) {
-      page = await component.fetchRemoteState({url, route}, app)
-      if (isFound) {
-        status = page ? 200 : 404
-      }
-      else {
-        status = 404
-      }
-    }
-    else {
-      status = isFound ? 200 : 404
-    }
-
-    if (isJson) {
+    if (url.pathname.endsWith('/page.json')) {
       res.setStatus(status)
       res.json({page})
     }
     else {
+      const shell = new Shell({
+        doc: new StaticDocument,
+        url,
+        isStatic: true,
+        hasViewport: false,
+      })
+
       res.push(
         new Plant.Response({
-          url: new URL(`${pagePath}/page.json`, req.url),
+          url: new URL(
+            getJsonPath(url.pathname),
+            req.url,
+          ),
           headers: {
             'content-type': 'application/json',
           },
@@ -62,7 +48,7 @@ export default function handleApp({
       res.push('/assets/app.js')
       res.push('/assets/app.css')
 
-      const html = renderStatic(component.default, {
+      const html = renderStatic(route.value.default, {
         shell,
         url: shell.url,
         route,
@@ -74,6 +60,49 @@ export default function handleApp({
       res.setStatus(status)
       res.html(html)
     }
+  }
+}
+async function loadPage(url, router, app) {
+  const route = router.resolve(
+    normalizePathname(url.pathname)
+  )
+
+  if (! route) {
+    return {
+      route: router.resolve('/_/404'),
+      status: 404,
+      page: null,
+    }
+  }
+
+  const component = route.value
+
+  let page
+  if (component.fetchRemoteState) {
+    page = await component.fetchRemoteState({url, route}, app)
+  }
+
+  if (! page) {
+    return {
+      route: router.resolve('/_/404'),
+      status: 404,
+      page: null,
+    }
+  }
+
+  return {
+    route,
+    status: 200,
+    page,
+  }
+}
+
+function normalizePathname(pathname) {
+  if (pathname.endsWith('/page.json')) {
+    return '/' + pathname.slice(0, -10).replace(/^\/+/, '')
+  }
+  else {
+    return '/' + pathname.replace(/^\/+/, '').replace(/\/+$/, '')
   }
 }
 
