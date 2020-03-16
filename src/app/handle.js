@@ -1,9 +1,10 @@
+import {renderToString} from '@hyperapp/render'
 import Plant from '@plant/plant'
 
 import {Shell} from '../lib/Shell'
 import {StaticDocument} from '../lib/document'
 
-import renderStatic from './renderStatic'
+import actions from './actions'
 import layout from './layout'
 
 export default function handleApp({
@@ -119,9 +120,9 @@ async function loadPage(url, router, app) {
 
   const component = route.value
 
-  let page
+  let page = {}
   if (component.fetchRemoteState) {
-    page = await component.fetchRemoteState({url, route}, app)
+    page = await component.fetchRemoteState({url, route}, app.services, app)
   }
 
   if (! page) {
@@ -150,4 +151,17 @@ function normalizePathname(pathname) {
 
 function getJsonPath(pathname) {
   return `${pathname.replace(/\/+$/, '')}/page.json`
+}
+
+function renderStatic(view, state) {
+  const {shell} = state
+  const output = view(state, actions({
+    shell,
+  }))
+
+  return renderToString(layout({
+    doc: shell.doc,
+    output,
+    state,
+  }))
 }

@@ -23,16 +23,8 @@ export default function BlogPost(state, actions) {
   )
 }
 
-export async function fetchRemoteState({route}) {
-  if (! [1, 2].includes(route.params.page)) {
-    return
-  }
-  return {
-    title: `Page ${route.params.page}`,
-    body: `
-      This is a page
-    `,
-  }
+export async function fetchRemoteState({route}, {db}) {
+  return db.get(`blog:${route.params.page}`)
 }
 
 export async function listPages() {

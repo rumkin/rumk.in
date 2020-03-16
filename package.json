@@ -6,7 +6,8 @@
     "@plant/plant": "^2.5.0",
     "escape-html": "^1.0.3",
     "history": "^4.7.2",
-    "hyperapp": "^1.2.5"
+    "hyperapp": "^1.2.5",
+    "lodash.camelcase": "^4.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

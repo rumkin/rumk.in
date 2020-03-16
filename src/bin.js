@@ -3,7 +3,9 @@ import path from 'path'
 
 import {Request, Response} from '@plant/plant'
 
+import App from './lib/app'
 import {normalizeRoutes} from './lib/createRouter'
+import {initServices} from './lib/services'
 import {format} from './lib/Router'
 
 import router from './app/router'
@@ -27,16 +29,25 @@ function createCompiler({
     return res
   }
 }
+
 async function render(argv) {
   const config = await import(process.cwd() + '/config.json')
 
+  const app = new App({config})
+
+  initServices(
+    app,
+    path.join(__dirname, '/app/services'),
+    config.services,
+  )
+
   const compile = createCompiler({
-    app: {},
+    app,
     router,
     config,
   })
 
-  const res = await compile(argv[0] || '/')
+    const res = await compile(argv[0] || '/')
   if (! res.hasBody) {
     console.error('Nothing returned')
     return 1
@@ -148,8 +159,17 @@ async function build(argv) {
   const config = await import(process.cwd() + '/config.json')
   const output = argv.length > 0 ? argv[0] : config.outDir
 
+
+  const app = new App({config})
+
+  initServices(
+    app,
+    path.join(__dirname, '/app/services'),
+    config.services,
+  )
+
   const compile = createCompiler({
-    app: {},
+    app,
     router,
     config,
   })
