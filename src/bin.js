@@ -47,7 +47,7 @@ async function render(argv) {
     config,
   })
 
-    const res = await compile(argv[0] || '/')
+  const res = await compile(argv[0] || '/')
   if (! res.hasBody) {
     console.error('Nothing returned')
     return 1
@@ -73,8 +73,34 @@ function shouldSkip(filepath, rules) {
   return false
 }
 
+async function cloneAssets({
+  output,
+  pathname,
+  assets,
+}) {
+  const dir = path.join(output, pathname)
+  await fs.mkdir(dir, {recursive: true})
+  let dirs = new Set()
+
+  for (const asset of assets) {
+    const assetDir = path.dirname(asset.filepath)
+    if (! dirs.has(assetDir)) {
+      await fs.mkdir(
+        path.join(dir, assetDir),
+        {recursive: true},
+      )
+      dirs.add(assetDir)
+    }
+
+    await fs.copyFile(
+      asset.filepath,
+      path.join(dir, asset.url)
+    )
+  }
+}
+
 async function buildWithRouter({
-  prefix = '',
+  baseUrl = '',
   app,
   router,
   compile,
@@ -82,38 +108,58 @@ async function buildWithRouter({
   skip = [],
 }) {
   for (const route of router._routes) {
-    const prefixed = `${prefix}${route.pattern}`
+    const fullPath = `${baseUrl}${route.pattern}`
 
-    if (shouldSkip(prefixed, skip)) {
+    if (shouldSkip(fullPath, skip)) {
       continue
     }
 
-    if (route.value) {
+    const component = route.value
+    if (component) {
       if (route.paramName) {
-        if (typeof route.value.listPages === 'function') {
-          const pages = await route.value.listPages(app)
+        const hasPageAssets = !! component.listPageAssets
+        if (!! component.listPages) {
+          const pages = await component.listPages(app.services, app)
           for (const page of pages) {
-            const pathname = format(prefixed, page)
+            const pathname = format(fullPath, page)
             await buildPage({
               compile,
               output,
               pathname,
             })
+
+            if (hasPageAssets) {
+              const assets = await component.listPageAssets(page, app.services, app)
+              await cloneAssets({
+                output,
+                pathname,
+                assets,
+              })
+            }
           }
         }
+
+        if (!! component.listAssets) {
+          const assets = await component.listAssets(app.services, app)
+          await cloneAssets({
+            output,
+            pathname: fullPath,
+            assets,
+          })
+        }
       }
-      else {
+      else if (component.default) {
         await buildPage({
           compile,
           output,
-          pathname: prefixed,
+          pathname: fullPath,
         })
+
       }
     }
-
-    if (route.router) {
+    else if (route.router) {
       await buildWithRouter({
-        prefix: prefixed,
+        baseUrl: fullPath,
         app,
         router: route.router,
         compile,
@@ -159,7 +205,6 @@ async function build(argv) {
   const config = await import(process.cwd() + '/config.json')
   const output = argv.length > 0 ? argv[0] : config.outDir
 
-
   const app = new App({config})
 
   initServices(
@@ -175,7 +220,7 @@ async function build(argv) {
   })
 
   await buildWithRouter({
-    app: {},
+    app,
     compile,
     router,
     output,
