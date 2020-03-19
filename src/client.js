@@ -28,7 +28,6 @@ if (! history.location.state) {
 
 const state = Object.assign({
   stateId: history.location.state.stateId,
-  route: null,
   isLoading: null,
   status: 0,
   error: null,
@@ -103,7 +102,7 @@ function renderError(status, state, actions) {
 }
 
 function resolve(pathname, router) {
-  const route = router.resolve(pathname)
+  const route = router.resolve(normalizePathname(pathname))
 
   if (! route) {
     return {
@@ -117,4 +116,8 @@ function resolve(pathname, router) {
       status: route.value.fetchRemoteState ? 0 : 200
     }
   }
+}
+
+function normalizePathname(pathname) {
+  return pathname.replace(/\/+$/, '')
 }

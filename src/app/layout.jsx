@@ -1,6 +1,6 @@
 import {h} from 'hyperapp';
 
-export default function Html({doc, output, state: {shell, ...state}}) {
+export default function Html({doc, output, state: {shell, route, ...state}}) {
   return (
     <html lang={doc.lang || 'en'}>
       <head>
