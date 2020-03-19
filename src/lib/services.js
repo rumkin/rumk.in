@@ -31,10 +31,10 @@ export function loadFactories(dir) {
  *
  * @param {App} app Applicaation instance.
  * @param  {string} dir Directory with services
- * @param  {Object<string,Object>} config={} Configuration object where key is service name and value service factory config.
+ * @param  {Promise<Object<string,Object>>} config={} Configuration object where key is service name and value service factory config.
  * @return {App} Returns app
  */
-export function initServices(app, dir, config = {}) {
+export async function initServices(app, dir, config = {}) {
   const services = {}
 
   const factories = loadFactories(dir)
@@ -43,7 +43,7 @@ export function initServices(app, dir, config = {}) {
     if (`!${id}` in config) {
       continue
     }
-    app.register(id, factory(config[id], app))
+    app.register(id, await factory(config[id], app))
   }
 
   return app

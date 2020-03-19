@@ -35,7 +35,7 @@ async function render(argv) {
 
   const app = new App({config})
 
-  initServices(
+  await initServices(
     app,
     path.join(__dirname, '/app/services'),
     config.services,
@@ -207,7 +207,7 @@ async function build(argv) {
 
   const app = new App({config})
 
-  initServices(
+  await initServices(
     app,
     path.join(__dirname, '/app/services'),
     config.services,
