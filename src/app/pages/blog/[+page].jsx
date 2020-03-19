@@ -1,12 +1,11 @@
 import {h} from 'hyperapp'
 
-import {Link} from '../../components/link'
+import {Link} from '../../components/Link'
+import {withLoader} from '../../helpers/loader'
 import {Inner} from '../../layouts/Inner'
 
-export default function BlogPost(state, actions) {
-  const {status, route, shell, page} = state
-
-  shell.doc.title = 'Blog Posts'
+function BlogPostList({status, route, shell, page}) {
+  shell.doc.title = `Blog page #${route.params.page}`
 
   return (
     <Inner>
@@ -17,11 +16,21 @@ export default function BlogPost(state, actions) {
         <p>
           Posts lists:
         </p>
-        <ul></ul>
+        <ul>
+          {page.posts.map(post => (
+            <li key={post.id}>
+              <Link route="/blog/[:postId]" params={{postId: post.id}}>
+                {post.head.title || `Post ${post.id}`}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </Inner>
   )
 }
+
+export default withLoader(BlogPostList)
 
 export async function fetchRemoteState({route}, {blog}) {
   const page = route.params.page - 1
@@ -30,7 +39,12 @@ export async function fetchRemoteState({route}, {blog}) {
     limit: 10,
   })
 
-  return posts.map((post) => post.head)
+  return {
+    posts: posts.map((post) => ({
+      id: post.id,
+      head: post.head,
+    })),
+  }
 }
 
 export async function listPages({blog}) {

@@ -1,41 +1,59 @@
 import {h} from 'hyperapp'
 
 import {Link} from '../../components/link'
+import {withLoader} from '../../helpers/loader'
 import {Inner} from '../../layouts/Inner'
 
-export default function BlogPost(state, actions) {
+function BlogPost(state, actions) {
   const {status, route, shell, page} = state
 
-  shell.doc.title = 'Blog Post'
+  shell.doc.title = page.head.title
 
   return (
     <Inner>
-      <h1>
-        {page.title || 'Post not found'}
-      </h1>
-      <p>
-        Post ID: {route.params.postId}
-      </p>
+      {transformNodes(page.body)}
     </Inner>
   )
 }
 
-export async function fetchRemoteState({route}, {blog}) {
-  return blog.getPost(route.params.postId)
+export default withLoader(BlogPost)
+
+function transformNode({tagName, props, children = []}) {
+  return h(tagName, props, transformNodes(children))
 }
 
-export async function listPages() {
-  return [
-    {postId: 'a'},
-    {postId: 'b'},
-  ]
-}
-
-export async function listPageAssets() {
-  return [
-    {
-      filepath: 'assets/app.css',
-      url: './assets/app.css',
+function transformNodes(nodes) {
+  return nodes.map((node) => {
+    if (typeof node === 'string') {
+      return node
     }
-  ]
+    else {
+      return transformNode(node)
+    }
+  })
+}
+
+export async function fetchRemoteState({route}, {blog}) {
+  const post = await blog.getPost(route.params.postId)
+
+  if (! post) {
+    return
+  }
+
+  return {
+    id: post.id,
+    head: post.head,
+    body: post.body,
+  }
+}
+
+export async function listPages({blog}) {
+  return (await blog.listPosts())
+  .map(({id}) => ({postId: id}))
+}
+
+export async function listPageAssets({postId}, {blog}) {
+  const post = await blog.getPost(postId)
+
+  return post ? post.assets : []
 }

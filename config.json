@@ -1,4 +1,9 @@
 {
   "protocol": "http",
-  "host": "rumk.in"
+  "host": "rumk.in",
+  "services": {
+    "blog": {
+      "dir": "tmp/markdown/articles"
+    }
+  }
 }

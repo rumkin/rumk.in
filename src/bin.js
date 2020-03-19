@@ -83,7 +83,7 @@ async function cloneAssets({
   let dirs = new Set()
 
   for (const asset of assets) {
-    const assetDir = path.dirname(asset.filepath)
+    const assetDir = path.dirname(asset.url)
     if (! dirs.has(assetDir)) {
       await fs.mkdir(
         path.join(dir, assetDir),

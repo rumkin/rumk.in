@@ -1,6 +1,7 @@
 import {h} from 'hyperapp'
 
 import Logo from '../components/Logo'
+import {withLoader} from '../helpers/loader'
 import {Main} from '../layouts/Main'
 
 function Props(title, children) {
@@ -35,48 +36,28 @@ function ProjectList({projects, ...props}) {
   )
 }
 
-function Loading(state) {
-  return <div>Loading...</div>
-}
-
-export default function Home(state, actions) {
-  const {doc} = state.shell
+function Home(state, actions) {
+  const {page, shell} = state
+  const {doc} = shell
+  
   doc.title = 'Paul Rumkin'
 
   doc.openGraph('title', 'Paul Rumkin')
   doc.openGraph('description', 'Personal website')
 
-  const {isLoading, error, page, status} = state
-
-  let content
-  if (! page) {
-    if (status === 0 && ! isLoading) {
-      actions.pageLoad(state.url)
-    }
-    else {
-      content = <Loading state={state} />
-    }
-  }
-  else if (error) {
-    content = <div>Error {error + ''}</div>
-  }
-  else {
-    content = (
+  return (
+    <Main>
       <div class="Projects">
         <h2 class="Projects-header">
           Projects
         </h2>
         <ProjectList projects={page.projects} />
       </div>
-    )
-  }
-
-  return (
-    <Main>
-      {content}
     </Main>
-  );
-};
+  )
+}
+
+export default withLoader(Home)
 
 export async function fetchRemoteState() {
   return {
