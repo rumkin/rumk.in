@@ -119,5 +119,5 @@ function resolve(pathname, router) {
 }
 
 function normalizePathname(pathname) {
-  return pathname.replace(/\/+$/, '')
+  return '/' + pathname.replace(/\/+$/, '').replace(/^\/+/, '')
 }
