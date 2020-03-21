@@ -46,6 +46,9 @@ export default [
 			},
 		],
 		plugins: [
+			overwrite({
+				'src/app/pages.js': generatePages('src/app/pages', 'src/app/'),
+			}),
 			...onProd(() => [
 				removeExport({
 					dir: 'src/app/pages',
@@ -55,18 +58,20 @@ export default [
 							(node) => 'export const fetchRemoteState = true' + '\n'.repeat(node.loc.end.line - node.loc.start.line)
 						],
 					],
-					babelConfig,
+					babelConfig: {
+						...babelConfig,
+						presets: [
+							['@babel/preset-react', {
+								pragma: 'h',
+							}],
+						],
+					},
 				}),
 			]),
-			overwrite({
-				'src/app/pages.js': generatePages('src/app/pages', 'src/app/'),
-			}),
-			babel(babelConfig),
-			commonjs(),
 			replace({
-	      // Always production for React and ReactDOM packages
-	      'process.env.NODE_ENV': JSON.stringify('production'),
-	    }),
+				// Always production for React, Preact, etc.
+				'process.env.NODE_ENV': JSON.stringify('production'),
+			}),
 			...onProd(() => [
 				strip({
 					functions: [
@@ -74,11 +79,13 @@ export default [
 					]
 				}),
 			]),
+			commonjs(),
 	    resolve({
 				extensions: [
 					'.js', '.mjs', '.json', '.node', '.jsx',
 				],
 			}),
+			babel(babelConfig),
 		],
 	},
 ]
