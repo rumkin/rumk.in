@@ -1,8 +1,15 @@
+import Config from './Config'
+
 export default class App {
   constructor({config}) {
     this._services = Object.freeze({})
+    
+    if (config instanceof Config === false) {
+      throw new TypeError('Option "config" should be instance of Config')
+    }
+
     Object.defineProperty(this, 'config', {
-      value: frozenCopy(config),
+      value: config,
     })
   }
 

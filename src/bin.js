@@ -3,7 +3,8 @@ import path from 'path'
 
 import {Request, Response} from '@plant/plant'
 
-import App from './lib/app'
+import App from './lib/App'
+import Config from './lib/Config'
 import {normalizeRoutes} from './lib/createRouter'
 import {initServices} from './lib/services'
 import {format} from './lib/Router'
@@ -31,8 +32,7 @@ function createCompiler({
 }
 
 async function render(argv) {
-  const config = await import(process.cwd() + '/config.json')
-
+  const config = await Config.load('config.json')
   const app = new App({config})
 
   await initServices(
@@ -154,7 +154,6 @@ async function buildWithRouter({
           output,
           pathname: fullPath,
         })
-
       }
     }
     else if (route.router) {
@@ -202,7 +201,7 @@ async function buildPage({
 }
 
 async function build(argv) {
-  const config = await import(process.cwd() + '/config.json')
+  const config = await Config.load('config.json')
   const output = argv.length > 0 ? argv[0] : config.outDir
 
   const app = new App({config})
