@@ -36,11 +36,19 @@
   "scripts": {
     "clean": "rm -rf build",
     "render": "npm run build && node bin.js / > build/index.html && node bin.js 404 > build/404.html",
-    "build": "npm run clean && npm run build:server && npm run build:client && npm run copy",
+    "build": "npm run clean && npm run build:all && npm run copy",
     "build:dev": "NODE_ENV=development npm run build",
-    "copy": "cp -r assets/* build/assets",
+    "cli": "node build/src/bin.js",
+    "copy": "npm run copy:assets && npm run copy:config",
+    "copy:assets": "cp -r assets/* build/assets",
+    "copy:config": "cp config.json build/",
+    "netlify": "npm run build && npm run build:static",
+    "build:all": "npm run build:src && npm run build:client && npm run build:workbench && npm run build:articles",
     "build:client": "rollup -c rollup.config.js",
-    "build:server": "babel src --source-root src --out-dir build",
+    "build:src": "babel src --source-root src --out-dir build/src",
+    "build:workbench": "babel workbench --source-root workbench --out-dir build/workbench",
+    "build:articles": "node build/workbench/markdown build data/articles build/data/articles",
+    "build:static": "npm run cli -- build build/static && cp -r build/assets build/static",
     "start": "node build/server.js 8000"
   }
 }

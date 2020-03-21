@@ -202,7 +202,14 @@ async function buildPage({
 
 async function build(argv) {
   const config = await Config.load('config.json')
-  const output = argv.length > 0 ? argv[0] : config.outDir
+
+  let output
+  if (argv.length > 0) {
+    output = path.resolve(argv[0])
+  }
+  else {
+    output = path.resolve(config['$url'], config.outDir)
+  }
 
   const app = new App({config})
 

@@ -3,7 +3,7 @@
   "host": "rumk.in",
   "services": {
     "blog": {
-      "dir": "tmp/markdown/articles"
+      "dir": "build/data/articles"
     }
   }
 }
