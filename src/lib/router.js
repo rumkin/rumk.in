@@ -86,7 +86,7 @@ class Route {
 
 function normalizePath(p) {
   return p.replace(/^\/+/, '')
-  .replace(/^\/+$/, '')
+  .replace(/\/+$/, '')
   .replace(/\/{2,}/, '/')
 }
 
