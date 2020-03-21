@@ -19,6 +19,10 @@ export function goto(fn) {
 export const Link = ({href, route, params = {}, ...props}, children) => (state, actions) => {
   href = href || format(route, params || {})
 
+  if (/\/[^.]+$/.test(href)) {
+    href += '/'
+  }
+
   return (
     <a
       {...props}

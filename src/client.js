@@ -20,10 +20,13 @@ const shell = new Shell({
 })
 
 if (! history.location.state) {
-  history.replace(location.href.slice(location.origin.length), {
-    stateId: fooid(),
-    height: history.length,
-  })
+  history.replace(
+    addUrlTrailingSlash(location.href.slice(location.origin.length)),
+    {
+      stateId: fooid(),
+      height: history.length,
+    },
+  )
 }
 
 const state = Object.assign({
@@ -102,7 +105,7 @@ function renderError(status, state, actions) {
 }
 
 function resolve(pathname, router) {
-  const route = router.resolve(normalizePathname(pathname))
+  const route = router.resolve(pathname)
 
   if (! route) {
     return {
@@ -118,6 +121,11 @@ function resolve(pathname, router) {
   }
 }
 
-function normalizePathname(pathname) {
-  return '/' + pathname.replace(/\/+$/, '').replace(/^\/+/, '')
+function addUrlTrailingSlash(url) {
+  if (/\/[^.]+$/.test(url)) {
+    return `${url}/`
+  }
+  else {
+    return url
+  }
 }
