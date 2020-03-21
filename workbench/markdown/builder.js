@@ -6,7 +6,7 @@ import iterateDir from '../utils/iterateDir'
 
 import Compiler from './compiler'
 
-async function build({
+export async function build({
   input,
   output,
   compiler = new Compiler(),
@@ -84,7 +84,7 @@ async function linkAssets(sourceDir, destDir) {
   }
 }
 
-async function loadIndex(dir) {
+export async function list(dir) {
   const files = collectByBasename(dir, 'head.json')
   const index = []
 
@@ -192,59 +192,3 @@ function collectFiles(dir, filter) {
 
   return output
 }
-
-function usageCmd() {
-  console.log('Usage is:')
-  console.log('')
-  console.log('- build <input> <output>')
-  console.log('- read <input>')
-}
-
-function readCmd({
-  argv,
-}) {
-  return loadIndex(argv[0] || 'tmp/markdown')
-}
-
-function buildCmd({
-  argv,
-}) {
-  return build({
-    input: argv[0] || 'data/markdown',
-    output: argv[1] || 'tmp/markdown',
-  })
-}
-
-async function main({cmd, argv}) {
-  switch (argv[0]) {
-  case 'build':
-    return buildCmd(
-      shiftArgv({cmd, argv})
-    )
-  case 'read':
-    return readCmd(
-      shiftArgv({cmd, argv})
-    )
-  default:
-    return usageCmd(
-      shiftArgv({cmd, argv})
-    )
-  }
-}
-
-function shiftArgv({cmd, argv}, n = 1) {
-  return {
-    cmd: [...cmd, ...argv.slice(0, n)],
-    argv: argv.slice(n),
-  }
-}
-
-main({
-  cmd: process.argv.slice(0, 2),
-  argv: process.argv.slice(2),
-})
-.catch(error => {
-  console.error('%o', error)
-  return 1
-})
-.then((code = 0) => process.exit(code))

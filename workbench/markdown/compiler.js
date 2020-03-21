@@ -57,7 +57,6 @@ export default class Compiler {
 
     const body = toHyper(h, hast).children
 
-    console.log({body, head})
     return {
       errors,
       output: {
