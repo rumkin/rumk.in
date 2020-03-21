@@ -1,0 +1,50 @@
+import path from 'path'
+
+import Plant from '@plant/plant'
+import {createServer} from '@plant/http'
+import {serveDir} from '@plant/fs'
+
+import {handleError} from '../../src/lib/plant/error'
+import {handleLogger} from '../../src/lib/plant/logger'
+
+async function main({
+  argv,
+}) {
+  const PORT = argv[0] || 8080
+  const DIR = argv[1] || '.'
+
+  const plant = new Plant()
+
+  // Log requests
+  plant.use(handleLogger(console))
+
+  // Handle errors
+  plant.use(handleError({
+    debug: true,
+    logger: console,
+  }))
+
+  // Handle static files
+  plant.use(serveDir(DIR))
+
+  const server = createServer(plant)
+
+  server.listen(PORT, () => {
+    console.log(`Server is started at port ${PORT}`)
+  })
+
+  await new Promise((resolve, reject) => {
+    server.on('exit', resolve)
+    server.on('error', reject)
+  })
+}
+
+main({
+  cmd: process.argv.slice(0, 2),
+  argv: process.argv.slice(2),
+})
+.catch(error => {
+  console.error(error)
+  return 1
+})
+.then((code = 0) => process.exit(code))
