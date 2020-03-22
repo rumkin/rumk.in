@@ -122,7 +122,7 @@ function resolve(pathname, router) {
 }
 
 function addUrlTrailingSlash(url) {
-  if (/\/[^.]+$/.test(url)) {
+  if (/\/[^.\/]+$/.test(url)) {
     return `${url}/`
   }
   else {
