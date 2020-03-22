@@ -2,7 +2,7 @@ import {renderToString} from '@hyperapp/render'
 import Plant from '@plant/plant'
 
 import {Shell} from '../lib/Shell'
-import {StaticDocument} from '../lib/document'
+import {StaticDocument} from '../lib/Document'
 
 import actions from './actions'
 import layout from './layout'

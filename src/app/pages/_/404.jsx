@@ -1,6 +1,6 @@
 import {h} from 'hyperapp'
 
-import {Link} from '../../components/link'
+import {Link} from '../../components/Link'
 import {Plain} from '../../layouts/plain'
 
 export default function E404({shell}, actions) {

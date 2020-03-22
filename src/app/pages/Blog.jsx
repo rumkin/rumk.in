@@ -1,6 +1,6 @@
 import {h} from 'hyperapp';
 
-import {Link} from '../components/link';
+import {Link} from '../components/Link';
 import {Inner} from '../layouts/Inner'
 
 export default function Blog({shell}, actions) {

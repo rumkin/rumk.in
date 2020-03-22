@@ -1,6 +1,6 @@
 import {h} from 'hyperapp'
 
-import {Link} from '../../components/link'
+import {Link} from '../../components/Link'
 import {withLoader} from '../../helpers/loader'
 import {Inner} from '../../layouts/Inner'
 
