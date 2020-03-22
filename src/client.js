@@ -2,7 +2,7 @@ import {app as createApp} from 'hyperapp'
 import {createBrowserHistory} from 'history'
 
 import {Shell} from './lib/Shell'
-import {DynamicDocument} from './lib/document'
+import {DynamicDocument} from './lib/Document'
 import fooid from './lib/fooid'
 
 import actions from './app/actions'
