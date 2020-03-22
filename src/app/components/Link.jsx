@@ -1,6 +1,6 @@
 import {h} from 'hyperapp'
 
-import {format} from '../../lib/router'
+import {format} from '../../lib/Router'
 import {addTrailingSlash} from '../../lib/url'
 
 function linkGoto(fn, e) {
