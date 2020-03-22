@@ -25,6 +25,7 @@ export class Shell {
     }
 
     this._url = url
+    this.doc.baseURI = url.pathname
 
     return url
   }

@@ -16,6 +16,14 @@ export class AbstractVirtualDocument {
   meta() {
     throw new Error('Not implemented yet')
   }
+
+  set baseURI(value) {
+    throw new Error('Not implemented yet')
+  }
+
+  get baseURI() {
+    throw new Error('Not implemented yet')
+  }
 }
 
 export class StaticDocument extends AbstractVirtualDocument {
@@ -29,6 +37,7 @@ export class StaticDocument extends AbstractVirtualDocument {
     this._title = title
     this._lang = lang
     this._metatags = new Map(Object.entries(metatags))
+    this._baseURI = '/'
   }
 
   set title(value) {
@@ -78,6 +87,14 @@ export class StaticDocument extends AbstractVirtualDocument {
 
     return this
   }
+
+  set baseURI(value) {
+    this._baseURI = value
+  }
+
+  get baseURI() {
+    return this._baseURI
+  }
 }
 
 export class DynamicDocument extends AbstractVirtualDocument {
@@ -122,6 +139,29 @@ export class DynamicDocument extends AbstractVirtualDocument {
     else if (tag) {
       tag.remove()
     }
+  }
+
+  set baseURI(value) {
+    const doc = this._document
+    if (value !== undefined) {
+      let base = doc.head.querySelector('base')
+      if (! base) {
+        base = doc.createElement('base')
+        doc.appendChild(base)
+      }
+
+      base.href = value
+    }
+    else {
+      let base = doc.head.querySelector('base')
+      if (base) {
+        base.remove()
+      }
+    }
+  }
+
+  get baseURI() {
+    return this._document.baseURI
   }
 }
 

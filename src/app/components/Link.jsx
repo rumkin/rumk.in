@@ -1,6 +1,7 @@
 import {h} from 'hyperapp'
 
 import {format} from '../../lib/router'
+import {addTrailingSlash} from '../../lib/url'
 
 function linkGoto(fn, e) {
   if (e.which !== 1 || e.shiftKey || e.ctrlKey || e.metaKey || e.altKey) {
@@ -17,11 +18,9 @@ export function goto(fn) {
 }
 
 export const Link = ({href, route, params = {}, ...props}, children) => (state, actions) => {
-  href = href || format(route, params || {})
-
-  if (/\/[^.]+$/.test(href)) {
-    href += '/'
-  }
+  href = addTrailingSlash(
+    href || format(route, params || {})
+  )
 
   return (
     <a

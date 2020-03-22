@@ -1,11 +1,18 @@
-import {h} from 'hyperapp';
+import {h} from 'hyperapp'
 
-export default function Html({doc, output, state: {shell, route, ...state}}) {
+import {addTrailingSlash} from '../lib/url'
+
+export default function Html({
+  doc,
+  output,
+  state: {shell, route, ...state},
+}) {
   return (
     <html lang={doc.lang || 'en'}>
       <head>
         <title>{doc.title}</title>
         <meta charset="utf8" />
+        <base href={addTrailingSlash(shell.url.pathname)}/>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="/assets/app.css" />
         <link rel="shortcut icon" href="/assets/logo.png" type="image/png" />

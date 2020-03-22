@@ -1,5 +1,6 @@
 import {set, merge} from '../lib/imm'
 import fooid from '../lib/fooid'
+import {addTrailingSlash} from '../lib/url'
 
 export default ({history, shell, cache, heights} = {}) => {
   return {
@@ -44,6 +45,7 @@ export default ({history, shell, cache, heights} = {}) => {
       if (! shell.isStatic) {
         const stateId = fooid()
         const height = history.length + 1
+        url = addTrailingSlash(url)
 
         history.push(url, {stateId, height})
 
@@ -58,6 +60,9 @@ export default ({history, shell, cache, heights} = {}) => {
 
         // TODO Scroll to top or to anchor.
         window.scrollTo(0, 0)
+        const base = document.head.querySelector('base')
+        base.href = url
+        // document.baseURI = window.location.origin + url
       }
     },
     pageNavigated: ({to, from, stateId, height}) => (state) => {
