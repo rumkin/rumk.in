@@ -8,15 +8,14 @@ import {handleError} from './lib/plant/error'
 import {handleCache} from './lib/plant/cache'
 import {handleLogger} from './lib/plant/logger'
 
-import App from './lib/app'
+import App from './lib/App'
+import Config from './lib/Config'
 import handleApp from './app/handle'
 import router from './app/router'
 import {initServices} from './lib/services'
 
 async function main() {
-  const config = await import(
-    path.join(process.cwd(), '/config.json')
-  )
+  const config = await Config.load('config.json')
 
   const app = new App({config})
 
@@ -41,7 +40,7 @@ async function main() {
 
   // Handle static files
   plant.use('/assets/*', serveDir(
-    path.join(__dirname, 'assets')
+    path.join(__dirname, '..', 'assets')
   ))
 
   // Cache app rendering result
