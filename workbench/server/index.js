@@ -24,6 +24,23 @@ async function main({
     logger: console,
   }))
 
+  plant.use(async ({req, res, fetch}, next) => {
+    await next()
+
+
+    if (! res.hasBody) {
+      const notFound = await fetch('/_/404')
+
+      if (notFound.status === 200) {
+        res.setStatus(404)
+        for (const [name, value] of notFound.headers.entries()) {
+          res.headers.set(name, value)
+        }
+        res.body = notFound.body
+      }
+    }
+  })
+
   // Handle static files
   plant.use(serveDir(DIR))
 
