@@ -1,7 +1,7 @@
 ---
 image: "./cover.png"
 description: "Regular page, initial post"
-published: 2020-03-02 12:00:00
+publishAt: 2020-03-02 12:00:00
 ---
 
 # Initial Post
