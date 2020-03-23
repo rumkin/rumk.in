@@ -1,14 +1,16 @@
 import {h} from 'hyperapp'
 
+import {Copyright} from './shared/copyright'
+
 export function Plain(props, children) {
   return (
-    <div class="container">
-      <main class="Main">
-        <div class="hero">
-          {children}
-        </div>
+    <div class="App-view container">
+      <main class="App-body">
+        {children}
       </main>
-      <footer>© Paul Rumkin, 2020.</footer>
+      <footer class="App-footer">
+        <Copyright />
+      </footer>
     </div>
   )
 }

@@ -4,25 +4,31 @@ import {GithubIcon, TwitterIcon, MailIcon} from '../components/icons'
 import Logo from '../components/Logo'
 
 
+import {Copyright} from './shared/copyright'
+
 export function Main(props, children) {
   return (
-    <div class="container">
-      <div class="Hero">
-        <div class="Hero-body">
-          <h1 class="Hero-header">
-            <Logo class="Hero-logo" size={32} />
-            Paul Rumkin
-          </h1>
-          <p class="Hero-intro">
-            Developer and author
-          </p>
+    <div class="App-view container">
+      <header class="App-header">
+        <div class="Hero">
+          <div class="Hero-body">
+            <h1 class="Hero-header">
+              <Logo class="Hero-logo" size={32} />
+              Paul Rumkin
+            </h1>
+            <p class="Hero-intro">
+              Developer and author
+            </p>
+          </div>
         </div>
-      </div>
-      <ProfileContacts />
-      <main class="Main">
+        <ProfileContacts />
+      </header>
+      <main class="App-body">
         {children}
       </main>
-      <footer>© Paul Rumkin, 2020.</footer>
+      <footer class="App-footer">
+        <Copyright />
+      </footer>
     </div>
   )
 }

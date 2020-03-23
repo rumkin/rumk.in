@@ -39,7 +39,7 @@ function ProjectList({projects, ...props}) {
 function Home(state, actions) {
   const {page, shell} = state
   const {doc} = shell
-  
+
   doc.title = 'Paul Rumkin'
 
   doc.openGraph('title', 'Paul Rumkin')
@@ -47,7 +47,7 @@ function Home(state, actions) {
 
   return (
     <Main>
-      <div class="Projects">
+      <div class="Projects Main">
         <h2 class="Projects-header">
           Projects
         </h2>
