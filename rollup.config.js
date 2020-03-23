@@ -55,7 +55,11 @@ export default [
 					functions: [
 						[
 							'fetchRemoteState',
-							(node) => 'export const fetchRemoteState = true' + '\n'.repeat(node.loc.end.line - node.loc.start.line)
+							(node) => ('export const fetchRemoteState = true' + '\n'.repeat(node.loc.end.line - node.loc.start.line)),
+						],
+						[
+							'listPages',
+							(node) => ('\n'.repeat(1 + node.loc.end.line - node.loc.start.line)),
 						],
 					],
 					babelConfig: {

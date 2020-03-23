@@ -132,7 +132,10 @@ function replaceExportNodes(content, matcher, babelConfig) {
 }
 
 function replaceNodesContent(content, nodes) {
+  let offset = 0
+
   for (let [node, placeholder] of nodes) {
+    let length = node.end - node.start
     if (! placeholder) {
       placeholder = '\n'.repeat(1 + node.loc.end.line - node.loc.start.line)
     }
@@ -140,7 +143,8 @@ function replaceNodesContent(content, nodes) {
       placeholder = placeholder(node)
     }
 
-    content = content.slice(0, node.start) + placeholder + content.slice(node.end)
+    content = content.slice(0, offset + node.start) + placeholder + content.slice(offset + node.end)
+    offset += placeholder.length - length
   }
 
   return content
