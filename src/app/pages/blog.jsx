@@ -1,22 +1,31 @@
-import {h} from 'hyperapp';
+import {h} from 'hyperapp'
 
-import {Link} from '../components/Link';
+import {PostList} from '../components/PostList'
+import {withLoader} from '../helpers/loader'
 import {Inner} from '../layouts/Inner'
 
-export default function Blog({shell}, actions) {
-  shell.doc.title = 'Blog'
+function BlogPostList({status, route, shell, page}) {
+  shell.doc.title = 'Articles'
 
   return (
     <Inner>
       <h1>
-        Blog
+        Articles
       </h1>
-      <p>
-        Sorry. There is nothing on this page.
-      </p>
-      <p>
-        Visit <Link href="/">main page</Link>.
-      </p>
+      <PostList posts={page.posts} />
     </Inner>
   )
+}
+
+export default withLoader(BlogPostList)
+
+export async function fetchRemoteState(ctx, {blog}) {
+  const posts = await blog.listPosts()
+
+  return {
+    posts: posts.map((post) => ({
+      id: post.id,
+      head: post.head,
+    })),
+  }
 }

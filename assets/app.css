@@ -164,3 +164,13 @@ a:hover {
 .Icon {
   vertical-align: middle;
 }
+
+.PostList {
+  list-style: none;
+  padding: 0;
+}
+
+.PostList-groupItems {
+  padding: 0;
+  list-style: none;
+}
