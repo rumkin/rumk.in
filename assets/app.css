@@ -20,6 +20,11 @@ body, #app {
 
 a {
   color: black;
+  text-decoration-color: rgba(0,0,0,0.2);
+}
+
+a:hover {
+  text-decoration-color: rgba(0,0,0,0.8);
 }
 
 .App-view {
@@ -42,6 +47,7 @@ a {
   flex-grow: 0;
   flex-shrink: 0;
   padding: 32px 0;
+  color: #ccc;
 }
 
 .Hero-Logo {
