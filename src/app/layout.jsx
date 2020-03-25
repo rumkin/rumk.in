@@ -15,7 +15,7 @@ export default function Html({
         <base href={addTrailingSlash(shell.url.pathname)}/>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="/assets/app.css" />
-        <link rel="shortcut icon" href="/assets/logo.png" type="image/png" />
+        <link rel="shortcut icon" href="/assets/favicon.png" type="image/png" />
         {[...doc.metatags].map(([, props]) => (<meta {...props} />))}
       </head>
       <body>
