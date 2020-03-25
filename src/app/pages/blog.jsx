@@ -9,7 +9,7 @@ function BlogPostList({status, route, shell, page}) {
 
   return (
     <Inner>
-      <h1>
+      <h1 class="PageBody-title">
         Articles
       </h1>
       <PostList posts={page.posts} />

@@ -8,12 +8,18 @@ export default function E404({shell}, actions) {
 
   return (
     <Plain>
-      <h1>
-        Page not found
-      </h1>
+      <div class="Primal">
+        <div class="Primal-body">
+          <h1 class="Primal-header">
+            Nothing found
+          </h1>
+          <p class="Primal-intro">
+            There is no such page.
+          </p>
+        </div>
+      </div>
       <p>
-        Sorry. There is no such page. Try to look on
-        the <Link href="/">main page</Link>.
+        <Link className="Button Button--accent-outline Button--lg" href="/">Start from home</Link>
       </p>
     </Plain>
   )

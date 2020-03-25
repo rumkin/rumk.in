@@ -1,6 +1,6 @@
 import {h} from 'hyperapp'
 
-export default function Logo({
+export function Logo({
   size = 32,
   variant='regular',
   ...props

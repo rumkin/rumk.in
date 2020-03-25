@@ -8,11 +8,18 @@ export default function E500({shell}, actions) {
 
   return (
     <Plain>
-      <h1>
-        Unknown error
-      </h1>
+      <div class="Primal">
+        <div class="Primal-body">
+          <h1 class="Primal-header">
+            Unknown error
+          </h1>
+          <p class="Primal-intro">
+            Something wrong happened. Try refresh the page.
+          </p>
+        </div>
+      </div>
       <p>
-        Something wrong happened. Try refresh the page.
+        <Link className="Button Button--accent-outline Button--lg" href="/">Start from home</Link>
       </p>
     </Plain>
   )

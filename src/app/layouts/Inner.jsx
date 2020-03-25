@@ -2,30 +2,38 @@ import {h} from 'hyperapp'
 
 import {GithubIcon, TwitterIcon, MailIcon} from '../components/icons'
 import {Link} from '../components/Link'
-import Logo from '../components/Logo'
+import {MainMenu} from '../components/MainMenu'
+import {Logo} from '../components/Logo'
 
 import {Copyright} from './shared/copyright'
 
 export function Inner(props, children) {
   return (
-    <div class="App-view container">
-      <header class="App-header">
-        <div class="PageHead">
-          <div class="PageHead-body">
-            <h1 class="PageHead-header">
+    <div class="App-view">
+      <header class="App-header Inner-header">
+        <div class="PageHead container">
+          <div class="PageHead-row">
+            <div class="PageHead-header">
               <Link route="/">
-                <Logo class="PageHead-logo" size={16} />
+                <Logo variant="small" class="PageHead-logo" size={16} />
                 Paul Rumkin
               </Link>
-            </h1>
+            </div>
+            <div class="PageHead-menu">
+              <MainMenu />
+            </div>
           </div>
         </div>
       </header>
       <main class="App-body">
-        {children}
+        <div class="container">
+          {children}
+        </div>
       </main>
       <footer class="App-footer">
-        <Copyright />
+        <div class="container">
+          <Copyright />
+        </div>
       </footer>
     </div>
   )
