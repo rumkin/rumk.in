@@ -1,10 +1,18 @@
 import {h} from 'hyperapp'
 
-export default function Logo({size = 32, ...props} = {}) {
+export default function Logo({
+  size = 32,
+  variant='regular',
+  ...props
+} = {}) {
+  const src = variant === 'small'
+    ? '/assets/logo-small.svg'
+    : '/assets/logo.svg'
+
   return (
     <img
       {...props}
-      src="/assets/logo.png"
+      src={src}
       width={size}
       height={size}
       alt="Logo"
