@@ -65,7 +65,7 @@ function view(state, actions) {
     return renderPage(state, actions)
   }
   catch (error) {
-    console.error(error)
+    window.console.error(error)
     return render500({
       state,
       ...error,
