@@ -1,0 +1,5 @@
+@import './app/common.css';
+@import './components/post-list.css';
+
+/* TODO: remove */
+@import './app/all.css';
