@@ -73,13 +73,6 @@
 }
 
 .Button--lg {
-  --shadow-high-height: 6px;
-  --shadow-low-height: 4px;
   font-size: 1.2em;
   padding: 12px 16px;
-}
-
-:root {
-  --shadow-high-height: 4px;
-  --shadow-high-height: 2px;
 }
