@@ -9,6 +9,7 @@
 @import './components/post.css';
 @import './components/button.css';
 @import './components/primal.css';
+@import './components/ProfileContacts.css';
 
 /* TODO: remove */
 @import './app/all.css';

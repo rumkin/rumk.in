@@ -12,33 +12,6 @@
   text-decoration: none;
 }
 
-.ProfileContacts {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: inline-block;
-}
-
-.ProfileContacts-link {
-  text-decoration: none;
-}
-
-.ProfileContacts-item {
-  display: inline-block;
-}
-
-.ProfileContacts-item:not(:last-child) {
-  margin: 0;
-  margin-right: 0.5em;
-}
-
-.ProfileContacts-item:not(:last-child):after {
-  content: "·";
-  display: inline-block;
-  margin-left: 0.5em;
-  color: #999;
-}
-
 .Main {
   margin: 3em 0;
 }

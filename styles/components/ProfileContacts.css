@@ -1,0 +1,19 @@
+.ProfileContacts {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+
+.ProfileContacts-link {
+  text-decoration: none;
+}
+
+.ProfileContacts-item {
+  display: inline-block;
+}
+
+.ProfileContacts-item:not(:last-child) {
+  margin: 0;
+  margin-right: 0.5em;
+}

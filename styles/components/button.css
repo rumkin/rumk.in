@@ -9,14 +9,14 @@
 
   transition: box-shadow ease-in-out 0.3s, transform ease-in-out 0.3s;
 
-  box-shadow: 0 2px 2px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.10);
   text-decoration: none;
 }
 
 .Button:hover {
   z-index: 2;
 
-  box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.10);
   text-decoration: none;
 }
 
@@ -61,9 +61,15 @@
 }
 
 .Button--regular-outline {
-  border-color: #cccccc;
+  border-color: #ddd;
   background-color: #fff;
   color: #000000;
+}
+
+.Button--regular-outline:focus {
+  box-shadow:
+    0px 0px 0px 2px rgba(2, 179, 255, 1),
+    0 4px 6px rgba(0,0,0,0.10);
 }
 
 .Button--lg {
