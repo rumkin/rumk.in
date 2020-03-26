@@ -9,6 +9,16 @@ import {Copyright} from './shared/copyright'
 
 export function Inner(props, children) {
   return (
+    <InnerWide>
+      <div class="container">
+        {children}
+      </div>
+    </InnerWide>
+  )
+}
+
+export function InnerWide(props, children) {
+  return (
     <div class="App-view">
       <header class="App-header Inner-header">
         <div class="PageHead container">
@@ -26,9 +36,7 @@ export function Inner(props, children) {
         </div>
       </header>
       <main class="App-body">
-        <div class="container">
-          {children}
-        </div>
+        {children}
       </main>
       <footer class="App-footer">
         <div class="container">

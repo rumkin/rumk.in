@@ -1,0 +1,20 @@
+.Primal {
+  min-height: 50vh;
+  display: grid;
+  align-items: end;
+}
+
+.Primal-body {
+  padding: 4em 0;
+}
+
+.Primal-header {
+  margin: 0;
+  font-size: 2em;
+}
+
+.Primal-intro {
+  margin: 0;
+  font-size: 1.3em;
+  color: #999;
+}

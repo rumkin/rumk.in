@@ -1,0 +1,46 @@
+.Hero {
+  min-height: 60vh;
+  display: grid;
+  align-items: center;
+}
+
+.Hero-Logo {
+  margin-right: 32px;
+}
+
+.Hero-body {
+  padding: 50px 0;
+  display: grid;
+  grid-template-columns: min-content auto;
+  align-items: center;
+}
+
+.Hero-header {
+  margin: 0;
+  font-size: 4em;
+}
+
+.Hero-intro {
+  margin: 0;
+  font-size: 1.3em;
+  color: #999;
+}
+
+
+@media (max-width: 480px) {
+  .Hero {
+    min-height: 50vh;
+    display: grid;
+    align-items: end;
+    margin-bottom: 64px;
+  }
+
+  .Hero-body {
+    display: block;
+    padding: 0;
+  }
+
+  .Hero-header {
+    font-size: 3em;
+  }
+}

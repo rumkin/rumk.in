@@ -27,6 +27,7 @@ function buildCmd({
   return build({
     input: argv[0],
     output: argv[1],
+    reporter: console,
   })
 }
 

@@ -10,6 +10,7 @@ export async function build({
   input,
   output,
   compiler = new Compiler(),
+  reporter,
 }) {
   const files = collectByExtname(input, '.md')
 
@@ -46,11 +47,13 @@ export async function build({
     await linkAssets(sourceDir, destDir)
 
     if (! isExported) {
-      // TODO use compiler output format:
-      // {errors:[], output: []}
-      const {output: {head, body}} = await compiler.compile(content, {
+      const {output: {head, body}, errors} = await compiler.compile(content, {
         filename: file.filepath,
       })
+
+      for (const error of errors) {
+        reporter[error.type]('File %s:', file.filepath, error.message)
+      }
 
       await fs.writeFile(hashFile, hash)
       await fs.writeFile(

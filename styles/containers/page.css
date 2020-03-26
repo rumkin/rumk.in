@@ -1,0 +1,42 @@
+
+.PageHead {
+  display: grid;
+  align-items: center;
+}
+
+.PageHead a {
+  text-decoration: none;
+}
+
+.PageHead-logo {
+  vertical-align: bottom;
+  margin-right: 8px;
+}
+
+.PageHead-row {
+  padding: 24px 0;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  vertical-align: middle;
+}
+
+.PageHead-header {
+  margin: 0;
+  font-size: 1em;
+}
+
+.PageHead-menu {
+  text-align: right;
+}
+
+.PageBody-title {
+  font-size: 4em;
+  margin: 1em 0 0;
+}
+
+@media (max-width: 480px) {
+  .PageBody-title {
+    font-size: 2em;
+    margin: 1em 0 0;
+  }
+}

@@ -3,7 +3,21 @@
   padding: 0;
 }
 
-.PostList-groupItems {
+.PostList\/Group-items {
   padding: 0;
   list-style: none;
+}
+
+.PostList\/Group-item:not(:last-child) {
+  margin-bottom: 1em;
+}
+
+.PostList\/Article-link {}
+
+.PostList\/Article-publishAt {
+  display: block;
+
+  font-size: 0.9em;
+  font-style: italic;
+  color: #999;
 }

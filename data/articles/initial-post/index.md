@@ -4,8 +4,8 @@ description: "Regular page, initial post"
 publishAt: 2020-03-02 12:00:00
 ---
 
-# Initial Post
+# _Initial_ post
 
 This is the first test post.
 
-![Image](./assets/rectangle.svg)
+![Black square](./assets/rectangle.svg)

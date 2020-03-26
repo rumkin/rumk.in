@@ -1,0 +1,40 @@
+.Post > * {
+  max-width: 760px;
+  margin: 0 auto 64px;
+  padding: 0 40px;
+}
+
+.Post-header {
+  margin: 128px auto 64px;
+}
+
+.Post-title {
+  margin: 0;
+  font-size: 64px;
+  line-height: 0.9em;
+}
+
+.Post-publishAt {
+  color: #999;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+.Post-body {
+  font-size: 1.1em;
+  line-height: 1.4em;
+}
+
+@media (max-width: 480px) {
+  .Post > * {
+    padding: 0 20px;
+  }
+
+  .Post-header {
+    margin: 64px auto 32px;
+  }
+
+  .Post-title {
+    font-size: 32px;
+  }
+}

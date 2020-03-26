@@ -1,10 +1,11 @@
 import unified from 'unified'
 import remark from 'remark-parse'
 import frontmatter from 'remark-frontmatter'
-import toRehype from 'remark-rehype'
 import sanitize from 'hast-util-sanitize'
 import Vfile from 'vfile'
 import toHyper from 'hast-to-hyperscript'
+import toRehype from 'remark-rehype'
+import hastToString from 'hast-util-to-string'
 import yaml from 'js-yaml'
 
 export default class Compiler {
@@ -20,7 +21,8 @@ export default class Compiler {
       contents: source,
     }))
 
-    const hast = await processor.run(tree)
+    let hast = await processor.run(tree)
+    hast.children = hast.children.filter(({type}) => type === 'element')
 
     function h(tagName, attrs, children) {
       let props
@@ -31,6 +33,7 @@ export default class Compiler {
           delete props.class
         }
       }
+      
       return {tagName, props, children}
     }
 
@@ -46,13 +49,21 @@ export default class Compiler {
           type: 'error',
           code: 'yaml',
           filename,
-          message: 'YAML parsing error',
+          message: 'YAML parsing error: \n' + error.message,
           error,
         })
       }
     }
     else {
       head = {}
+    }
+
+    if (! head.title) {
+      head.title = getTitle(hast)
+    }
+
+    if (! head.description) {
+      head.description = getDescription(hast)
     }
 
     const body = toHyper(h, hast).children
@@ -64,5 +75,24 @@ export default class Compiler {
         body,
       },
     }
+  }
+}
+
+function getTitle(hast) {
+  const node = hast.children.find((node) => node.tagName === 'h1')
+
+  if (node) {
+    return hastToString(node)
+  }
+}
+
+function getDescription(hast) {
+  const node = hast.children.slice(0, 3)
+  .find((node) => {
+    return node.tagName === 'p'
+  })
+
+  if (node) {
+    return hastToString(node)
   }
 }

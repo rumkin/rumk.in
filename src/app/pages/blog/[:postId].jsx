@@ -1,8 +1,9 @@
 import {h} from 'hyperapp'
 
 import {Link} from '../../components/Link'
+import {Post} from '../../components/Post'
 import {withLoader} from '../../helpers/loader'
-import {Inner} from '../../layouts/Inner'
+import {InnerWide} from '../../layouts/Inner'
 
 function BlogPost(state, actions) {
   const {status, route, shell, page} = state
@@ -10,28 +11,13 @@ function BlogPost(state, actions) {
   shell.doc.title = page.head.title
 
   return (
-    <Inner>
-      {transformNodes(page.body)}
-    </Inner>
+    <InnerWide>
+      <Post post={page} />
+    </InnerWide>
   )
 }
 
 export default withLoader(BlogPost)
-
-function transformNode({tagName, props, children = []}) {
-  return h(tagName, props, transformNodes(children))
-}
-
-function transformNodes(nodes) {
-  return nodes.map((node) => {
-    if (typeof node === 'string') {
-      return node
-    }
-    else {
-      return transformNode(node)
-    }
-  })
-}
 
 export async function fetchRemoteState({route}, {blog}) {
   const post = await blog.getPost(route.params.postId)
