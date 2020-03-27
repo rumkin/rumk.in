@@ -3,12 +3,12 @@ import {h} from 'hyperapp'
 import {Main} from '../layouts/Main'
 
 function Home(state, actions) {
-  const {page, shell} = state
+  const {page, shell, globals} = state
   const {doc} = shell
 
-  doc.title = 'Paul Rumkin'
+  doc.title = globals.owner
 
-  doc.openGraph('title', 'Paul Rumkin')
+  doc.openGraph('title', globals.owner)
   doc.openGraph('description', 'Personal website')
 
   return (

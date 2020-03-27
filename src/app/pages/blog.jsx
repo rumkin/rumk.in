@@ -4,8 +4,8 @@ import {PostList} from '../components/PostList'
 import {withLoader} from '../helpers/loader'
 import {Inner} from '../layouts/Inner'
 
-function BlogPostList({status, route, shell, page}) {
-  shell.doc.title = 'Articles'
+function BlogPostList({status, route, shell, page, globals}) {
+  shell.doc.title = `Articles - ${globals.owner}`
 
   return (
     <Inner>

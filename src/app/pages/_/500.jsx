@@ -4,7 +4,7 @@ import {Link} from '../../components/Link'
 import {Plain} from '../../layouts/Plain'
 
 export default function E500({shell}, actions) {
-  shell.doc.title = 'Unknown Error'
+  shell.doc.title = `Unknown Error - ${globals.owner}`
 
   return (
     <Plain>

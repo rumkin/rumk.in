@@ -25,6 +25,7 @@ export default function handleApp({
       writeResponse({
         res,
         route,
+        globals: app.config.globals,
         status: 500,
         error,
       })
@@ -52,6 +53,7 @@ async function respond({
     writeResponse({
       res,
       route,
+      globals: app.config.globals,
       status,
       page,
     })
@@ -62,6 +64,7 @@ function writeResponse({
   res,
   route,
   status,
+  globals = {},
   page = null,
   error = null
 }) {
@@ -82,6 +85,7 @@ function writeResponse({
     isLoading: false,
     page,
     error,
+    globals,
   })
 
   res.push(

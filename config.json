@@ -1,6 +1,9 @@
 {
   "protocol": "http",
   "host": "rumk.in",
+  "globals": {
+    "owner": "Paul Rumkin"
+  },
   "services": {
     "blog": {
       "dir": "build/data/articles"

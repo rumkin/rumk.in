@@ -35,6 +35,7 @@ const state = Object.assign({
   status: 0,
   error: null,
   page: null,
+  globals: {},
 }, getJson('/state.json'))
 
 const cache = new Map()

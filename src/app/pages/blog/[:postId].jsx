@@ -6,9 +6,15 @@ import {withLoader} from '../../helpers/loader'
 import {InnerWide} from '../../layouts/Inner'
 
 function BlogPost(state, actions) {
-  const {status, route, shell, page} = state
+  const {
+    status,
+    route,
+    shell,
+    page,
+    globals,
+  } = state
 
-  shell.doc.title = page.head.title
+  shell.doc.title = `${page.head.title} - ${globals.owner}`
 
   return (
     <InnerWide>

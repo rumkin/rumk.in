@@ -3,8 +3,8 @@ import {h} from 'hyperapp'
 import {Link} from '../../components/Link'
 import {Plain} from '../../layouts/Plain'
 
-export default function E404({shell}, actions) {
-  shell.doc.title = 'Nothing Found'
+export default function E404({shell, globals}, actions) {
+  shell.doc.title = `Nothing Found - ${globals.owner}`
 
   return (
     <Plain>
