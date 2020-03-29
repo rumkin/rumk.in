@@ -1,15 +1,6 @@
 .MainNavBar {
-  display: grid;
-  align-items: end;
   padding: 24px 0;
-}
-
-.MainNavBar > :last-child {
-  text-align: right;
-}
-
-.MainMenu a {
-  text-decoration: none;
+  margin: 0 -16px;
 }
 
 .Main {
@@ -19,14 +10,6 @@
 .Main-header {
   margin: 2em 0;
   font-size: 2em;
-}
-
-.MainMenu-link:not(:first-child) {
-  margin-left: 16px;
-}
-
-.MainMenu-link--active {
-  font-weight: bold;
 }
 
 .ProjectList {

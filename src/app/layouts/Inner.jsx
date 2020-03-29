@@ -22,7 +22,7 @@ export function InnerWide(props, children) {
     <div class="App-view">
       <header class="App-header Inner-header">
         <div class="PageHead container">
-          <div class="PageHead-row">
+          <div class="PageHead-row shift">
             <div class="PageHead-header">
               <Link route="/">
                 <Logo variant="small" class="PageHead-logo" size={16} />
@@ -30,7 +30,9 @@ export function InnerWide(props, children) {
               </Link>
             </div>
             <div class="PageHead-menu">
-              <MainMenu />
+              <div class="shift">
+                <MainMenu />
+              </div>
             </div>
           </div>
         </div>

@@ -14,10 +14,12 @@
 }
 
 .PageHead-row {
-  padding: 24px 0;
   display: grid;
-  grid-template-columns: 50% 50%;
-  vertical-align: middle;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 16px;
+  align-items: center;
+
+  padding: 24px 16px;
 }
 
 .PageHead-header {
