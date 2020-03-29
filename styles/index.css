@@ -1,7 +1,7 @@
 @import './app/common.css';
-@import './app/app.css';
 @import './app/boxes.css';
 
+@import './containers/app.css';
 @import './containers/page.css';
 
 @import './components/hero.css';
