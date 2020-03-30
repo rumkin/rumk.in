@@ -14,9 +14,25 @@ body, #app {
 
 a {
   color: black;
+  transition: box-shadow ease-in-out 0.3s;
+}
+
+a:not([class]) {
+  display: inline-block;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+
   text-decoration-color: rgba(0,0,0,0.2);
 }
 
-a:hover {
+a:not([class]):hover {
   text-decoration-color: rgba(0,0,0,0.8);
+}
+
+a:not([class]):focus {
+  box-shadow:
+    0 0 0 2px rgba(2, 92, 255, 0.68),
+    0 0 6px rgba(2, 92, 255, 0.7);
+  outline: none;
 }
