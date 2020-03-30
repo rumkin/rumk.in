@@ -12,28 +12,6 @@
   font-size: 2em;
 }
 
-.ProjectList {
-  list-style: none;
-  padding: 0;
-}
-
-.ProjectList-item {
-  margin: 0;
-  margin-bottom: 1em;
-  border: 1px solid #eee;
-  padding: 10px;
-  border-radius: 6px;
-}
-
-.ProjectList-desc {
-  font-size: 90%;
-}
-
-.ProjectList-itemLink {
-  text-decoration: none;
-  display: block;
-}
-
 .Icon {
   vertical-align: middle;
 }

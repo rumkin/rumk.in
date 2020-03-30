@@ -7,11 +7,12 @@
 @import './components/hero.css';
 @import './components/post-list.css';
 @import './components/post.css';
-@import './components/button.css';
 @import './components/Button.css';
 @import './components/MainMenu.css';
 @import './components/primal.css';
 @import './components/ProfileContacts.css';
+@import './components/ProjectList.css';
+@import './components/Showcase.css';
 
 /* TODO: remove */
 @import './app/all.css';

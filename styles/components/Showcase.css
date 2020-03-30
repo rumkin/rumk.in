@@ -1,0 +1,16 @@
+.Showcase\/Header {
+  display: grid;
+  justify-items: start;
+  margin: 1.5em 0;
+}
+
+.Showcase\/Header-title {
+  font-size: 2em;
+  margin: 0;
+}
+
+.Showcase\/Header-subtitle {
+  font-size: 1.2em;
+  color: #999;
+  margin: 0;
+}
