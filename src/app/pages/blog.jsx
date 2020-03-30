@@ -2,22 +2,23 @@ import {h} from 'hyperapp'
 
 import {PostList} from '../components/PostList'
 import {withLoader} from '../helpers/loader'
+import {withLayout} from '../helpers/layout'
 import {Inner} from '../layouts/Inner'
 
-function BlogPostList({status, route, shell, page, globals}) {
+function BlogPostList({shell, page, globals}) {
   shell.doc.title = `Articles - ${globals.owner}`
 
   return (
-    <Inner>
+    <div class="Page/Body">
       <h1 class="PageBody-title">
         Articles
       </h1>
       <PostList posts={page.posts} />
-    </Inner>
+    </div>
   )
 }
 
-export default withLoader(BlogPostList)
+export default withLayout(Inner, withLoader(BlogPostList))
 
 export async function fetchRemoteState(ctx, {blog}) {
   const posts = await blog.listPosts()

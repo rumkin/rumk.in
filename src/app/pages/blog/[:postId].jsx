@@ -3,6 +3,7 @@ import {h} from 'hyperapp'
 import {Link} from '../../components/Link'
 import {Post} from '../../components/Post'
 import {withLoader} from '../../helpers/loader'
+import {withLayout} from '../../helpers/layout'
 import {InnerWide} from '../../layouts/Inner'
 
 function BlogPost(state, actions) {
@@ -17,13 +18,17 @@ function BlogPost(state, actions) {
   shell.doc.title = `${page.head.title} - ${globals.owner}`
 
   return (
-    <InnerWide>
-      <Post post={page} />
-    </InnerWide>
+    <Post post={page} />
   )
 }
 
-export default withLoader(BlogPost)
+export default withLayout(
+  InnerWide,
+  withLoader(
+    <div class="container">Loading...</div>,
+    BlogPost,
+  ),
+)
 
 export async function fetchRemoteState({route}, {blog}) {
   const post = await blog.getPost(route.params.postId)

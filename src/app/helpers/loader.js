@@ -1,6 +1,9 @@
 import {h} from 'hyperapp'
 
-export function withLoader(component) {
+export function withLoader(...args) {
+  const component = args.pop()
+  const indicator = args[0] || h('div', {}, 'Loading...')
+
   return (state, actions) => {
     const {isLoading, error, page, status} = state
 
@@ -9,12 +12,10 @@ export function withLoader(component) {
         actions.pageLoad(state.url)
       }
 
-      return (
-        <div>Loading...</div>
-      )
+      return indicator
     }
     else if (error) {
-      return <div>Error {error + ''}</div>
+      return h('div', {}, `Error ${error + ''}`)
     }
     else {
       return component(state, actions)
