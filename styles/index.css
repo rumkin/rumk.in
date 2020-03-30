@@ -1,18 +1,17 @@
 @import './app/common.css';
 @import './app/boxes.css';
 
-@import './containers/app.css';
-@import './containers/page.css';
+@import './containers/App.css';
+@import './containers/Page.css';
+@import './containers/Main.css';
 
-@import './components/hero.css';
-@import './components/post-list.css';
-@import './components/post.css';
 @import './components/Button.css';
+@import './components/Hero.css';
+@import './components/Icon.css';
 @import './components/MainMenu.css';
-@import './components/primal.css';
+@import './components/Post.css';
+@import './components/PostList.css';
+@import './components/Primal.css';
 @import './components/ProfileContacts.css';
 @import './components/ProjectList.css';
 @import './components/Showcase.css';
-
-/* TODO: remove */
-@import './app/all.css';
