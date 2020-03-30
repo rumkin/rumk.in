@@ -46,8 +46,14 @@ export function Main(props, children) {
   )
 }
 
+function ProfileContact({
+  icon,
+  size = 16,
+  url,
+  compact,
+}, ...children) {
   return (
-    <a href={url} class="ProfileContacts-link Button Button--regular-outline">
+    <a href={url} class="ProfileContacts-link">
       {h(icon, {size, class: "Icon"})}{compact ? null : [' ', ...children]}
     </a>
   )

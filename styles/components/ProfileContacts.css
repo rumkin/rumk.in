@@ -1,12 +1,29 @@
 .ProfileContacts {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 32px;
   display: inline-block;
 }
 
 .ProfileContacts-link {
+  display: inline-block;
+  padding: 2px 4px;
+  margin: -2px -4px;
+  border-radius: 4px;
+
   text-decoration: none;
+  box-shadow: 0 0 0 rgba(2, 92, 255, 0.68);
+}
+
+.ProfileContacts-link:hover {
+  background-color: rgba(2, 92, 255, 0.05);
+}
+
+.ProfileContacts-link:focus {
+  box-shadow:
+    0 0 0 2px rgba(2, 92, 255, 0.68),
+    0 0 6px rgba(2, 92, 255, 0.7);
+  outline: none;
 }
 
 .ProfileContacts-item {
