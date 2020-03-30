@@ -8,40 +8,44 @@ import {Copyright} from './shared/copyright'
 
 export function Main(props, children) {
   return (
-    <div class="App-view container">
+    <div class="App-view">
       <header class="App-header">
-        <div class="MainNavBar">
-          <MainMenu />
-        </div>
-        <div class="Hero">
-          <div class="Hero-body">
-            <div>
-              <Logo class="Hero-logo" size={96} />
-            </div>
-            <div>
-              <h1 class="Hero-header">
-                Paul Rumkin
-              </h1>
-              <p class="Hero-intro">
-                Developer and author
-              </p>
+        <div class="container">
+          <div class="MainNavBar">
+            <MainMenu />
+          </div>
+          <div class="Hero">
+            <div class="Hero-body">
+              <div>
+                <Logo class="Hero-logo" size={96} />
+              </div>
+              <div>
+                <h1 class="Hero-header">
+                  Paul Rumkin
+                </h1>
+                <p class="Hero-intro">
+                  Developer and author
+                </p>
+              </div>
             </div>
           </div>
+          <ProfileContacts />
         </div>
-        <ProfileContacts />
       </header>
       <main class="App-body">
-        {children}
+        <div class="container">
+          {children}
+        </div>
       </main>
       <footer class="App-footer">
-        <Copyright />
+        <div class="container">
+          <Copyright />
+        </div>
       </footer>
     </div>
   )
 }
 
-
-function ProfileContact({icon, size=16, url, compact}, ...children) {
   return (
     <a href={url} class="ProfileContacts-link Button Button--regular-outline">
       {h(icon, {size, class: "Icon"})}{compact ? null : [' ', ...children]}
