@@ -19,7 +19,7 @@ export default function E500({shell}, actions) {
         </div>
       </div>
       <p>
-        <Link className="Button Button--accent-outline Button--lg" href="/">Start from home</Link>
+        <Link class="Button Button--accent-outline Button--lg" href="/">Start from home</Link>
       </p>
     </Plain>
   )

@@ -16,7 +16,7 @@ export function Menu({
           key={key}
           route={route}
           params={params}
-          className={itemClassName + (activeKeys.includes(key) ? (' ' + activeItemClassName) : (''))}
+          class={itemClassName + (activeKeys.includes(key) ? (' ' + activeItemClassName) : (''))}
         >
           {label}
         </Link>
