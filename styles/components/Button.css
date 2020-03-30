@@ -7,7 +7,10 @@
   border-width: 1px;
   border-style: solid;
 
-  transition: box-shadow ease-in-out 0.3s, transform ease-in-out 0.3s;
+  transition:
+    box-shadow ease-in-out 0.3s,
+    border-color ease-in-out 0.5s,
+    transform ease-in-out 0.3s;
 
   box-shadow: 0 2px 4px rgba(0,0,0,0.10);
   text-decoration: none;
@@ -52,7 +55,9 @@
 }
 
 .Button--accent-outline:focus {
-  box-shadow: 0px 4px 6px rgba(2, 179, 255, 0.35), 0px 0px 0px 2px rgba(2, 179, 255, 0.8);
+  box-shadow:
+    0px 4px 6px rgba(2, 179, 255, 0.35),
+    0px 0px 0px 3px rgba(2, 179, 255, 0.8);
 }
 
 .Button--regular {
@@ -61,15 +66,20 @@
 }
 
 .Button--regular-outline {
-  border-color: #ddd;
+  border-color: #00357d;
   background-color: #fff;
   color: #000000;
 }
 
+.Button--regular-outline:hover {
+  border-color: #5080f9;
+  box-shadow: 0 4px 6px rgba(2, 66, 255, 0.20);
+}
+
 .Button--regular-outline:focus {
   box-shadow:
-    0px 0px 0px 2px rgba(2, 179, 255, 1),
-    0 4px 6px rgba(0,0,0,0.10);
+    0 4px 6px rgba(2, 66, 255, 0.20),
+    0px 0px 0px 3px rgba(2, 66, 255, 0.34);
 }
 
 .Button--lg {
