@@ -77,11 +77,20 @@ function writeResponse({
     hasViewport: false,
   })
 
+  // Overwrite status codes for error pages
+  let viewStatus = status
+  if (url.pathname === '/_/404') {
+    viewStatus = 404
+  }
+  else if (url.pathname === '/_/500') {
+    viewStatus = 500
+  }
+
   const html = renderStatic(route.value.default, {
     shell,
     url: url.href.slice(url.origin.length),
     route,
-    status,
+    status: viewStatus,
     isLoading: false,
     page,
     error,
