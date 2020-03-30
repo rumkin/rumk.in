@@ -3,7 +3,7 @@ import {h} from 'hyperapp'
 import {Link} from '../../components/Link'
 import {Plain} from '../../layouts/Plain'
 
-export default function E500({shell}, actions) {
+export default function E500({globals, shell}, actions) {
   shell.doc.title = `Unknown Error - ${globals.owner}`
 
   return (

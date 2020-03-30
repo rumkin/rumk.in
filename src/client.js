@@ -68,8 +68,8 @@ function view(state, actions) {
   catch (error) {
     window.console.error(error)
     return render500({
-      state,
-      ...error,
+      ...state,
+      error,
     }, actions)
   }
 }
