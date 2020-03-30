@@ -75,8 +75,8 @@ function view(state, actions) {
 }
 
 function renderPage(state, actions) {
-  const {url} = shell
-  const {route, status} = resolve(url.pathname, router)
+  const {url} = state
+  const {route, status} = resolve(url, router)
 
   return route.value.default({
     shell,

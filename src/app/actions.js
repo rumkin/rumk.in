@@ -26,9 +26,12 @@ export default ({history, shell, cache, heights} = {}) => {
         },
       })
 
-      return fetchPage(shell, new URL(
-        url.pathname.replace(/\/+$/, '') + '/page.json', url
-      ))
+      const pageUrl = new URL(url, shell.url)
+      pageUrl.pathname += '/page.json'
+      pageUrl.search = ''
+      pageUrl.hash = ''
+
+      return fetchPage(shell, pageUrl)
       .then(({result: {status, page}, error}) => {
         actions.setState({
           update: {
@@ -69,7 +72,7 @@ export default ({history, shell, cache, heights} = {}) => {
       if (! cache.has(stateId)) {
         cache.set(stateId, {
           stateId,
-          url: to,
+          url: to.href.slice(to.origin.length),
           status: 0,
           page: null,
           error: null,

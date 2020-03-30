@@ -79,7 +79,7 @@ function writeResponse({
 
   const html = renderStatic(route.value.default, {
     shell,
-    url: shell.url,
+    url: url.href.slice(url.origin.length),
     route,
     status,
     isLoading: false,
