@@ -2,7 +2,7 @@ import {promises as fs} from 'fs'
 import path from 'path'
 
 import postcss from 'postcss'
-import precss from 'precss'
+import atImport from 'postcss-import'
 
 import {readStream} from '../utils/readStream'
 
@@ -18,7 +18,7 @@ export async function build({
     : {inline: false}
 
   const {css, map} = await postcss([
-    precss,
+    atImport,
   ])
   .process(source, {
     from: input,
