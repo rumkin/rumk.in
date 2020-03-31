@@ -1,9 +1,10 @@
 import {h} from 'hyperapp'
 
+import {Link} from './Link'
+
 export function Post({post}) {
   const {head, body} = post
 
-  const titleNode = body[0]
   const titleNode = [...body[0]]
   titleNode[1] = {
     ...titleNode[1],
@@ -32,7 +33,22 @@ function toLocaleDate(date) {
 }
 
 function transformNode([tagName, props, children = []]) {
-  return h(tagName, props, transformNodes(children))
+  switch (tagName) {
+  case 'a': {
+    return hLink(props, children)
+  }
+  default:
+    return h(tagName, props, transformNodes(children))
+  }
+}
+
+function hLink(props, children) {
+  if (props.href && /^(\.|\/|[^:\/]+\/?)/.test(props.href)) {
+    return h(Link, props, transformNodes(children))
+  }
+  else {
+    return h('a', props, transformNodes(children))
+  }
 }
 
 function transformNodes(nodes) {
