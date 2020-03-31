@@ -1,0 +1,188 @@
+code[class*="language-"],
+pre[class*="language-"] {
+  --hl-default-color: var(--hl-default-color, #000);
+  --hl-default-weight: var(--hl-font-weight, normal);
+  --hl-default-bg: var(--hl-default-bg, #fff);
+
+  color: var(--hl-color, --hl-default-color);
+  background: var(--hl-bg, --hl-default-bg);
+  text-align: left;
+  white-space: pre-wrap;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: inherit;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+  overflow: visible;
+  line-height: 1.4em;
+}
+
+pre[class*="language-"] > .token-line {
+  position: relative;
+}
+
+.line-number {
+  user-select: none;
+  color: var(--hl-line-num, --hl-default-color);
+  display: inline-block;
+  width: 2em;
+  position: absolute;
+  text-align: right;
+  left: -3em;
+  pointer-events: all;
+}
+
+/* SCHEME */
+
+.token.namespace {
+  color: var(--hl-namespace, --hl-default-color);
+  font-weight: var(--hl-namespace-weight, --hl-default-weight);
+}
+.token.tag {
+  color: var(--hl-tag, --hl-default-color);
+  font-weight: var(--hl-tag-weight, --hl-default-weight);
+}
+.token.attr-name {
+  color: var(--hl-attr-name, --hl-default-color);
+  font-weight: var(--hl-attr-name-weight, --hl-default-weight);
+}
+.token.function-name {
+  color: var(--hl-function-name, --hl-default-color);
+  font-weight: var(--hl-function-name-weight, --hl-default-weight);
+}
+.token.function {
+  color: var(--hl-function, --hl-default-color);
+  font-weight: var(--hl-function-weight, --hl-default-weight);
+}
+.token.boolean {
+  color: var(--hl-boolean, --hl-default-color);
+  font-weight: var(--hl-boolean-weight, --hl-default-weight);
+}
+.token.number {
+  color: var(--hl-number, --hl-default-color);
+  font-weight: var(--hl-number-weight, --hl-default-weight);
+}
+.token.class-name {
+  color: var(--hl-class-name, --hl-default-color);
+  font-weight: var(--hl-class-name-weight, --hl-default-weight);
+}
+.token.constant {
+  color: var(--hl-constant, --hl-default-color);
+  font-weight: var(--hl-constant-weight, --hl-default-weight);
+}
+.token.property {
+  color: var(--hl-property, --hl-default-color);
+  font-weight: var(--hl-property-weight, --hl-default-weight);
+}
+.token.symbol {
+  color: var(--hl-symbol, --hl-default-color);
+  font-weight: var(--hl-symbol-weight, --hl-default-weight);
+}
+.token.atrule {
+  color: var(--hl-atrule, --hl-default-color);
+  font-weight: var(--hl-atrule-weight, --hl-default-weight);
+}
+.token.builtin {
+  color: var(--hl-builtin, --hl-default-color);
+  font-weight: var(--hl-builtin-weight, --hl-default-weight);
+}
+.token.keyword {
+  color: var(--hl-keyword, --hl-default-color);
+  font-weight: var(--hl-keyword-weight, --hl-default-weight);
+}
+.token.selector {
+  color: var(--hl-selector, --hl-default-color);
+  font-weight: var(--hl-selector-weight, --hl-default-weight);
+}
+.token.entity {
+  color: var(--hl-entity, --hl-default-color);
+  font-weight: var(--hl-entity-weight, --hl-default-weight);
+}
+.token.operator {
+  color: var(--hl-operator, --hl-default-color);
+  font-weight: var(--hl-operator-weight, --hl-default-weight);
+}
+.token.url {
+  color: var(--hl-url, --hl-default-color);
+  font-weight: var(--hl-url-weight, --hl-default-weight);
+}
+.token.attr-value {
+  color: var(--hl-attr-value, --hl-default-color);
+  font-weight: var(--hl-attr-value-weight, --hl-default-weight);
+}
+.token.char {
+  color: var(--hl-char, --hl-default-color);
+  font-weight: var(--hl-char-weight, --hl-default-weight);
+}
+.token.regex {
+  color: var(--hl-regex, --hl-default-color);
+  font-weight: var(--hl-regex-weight, --hl-default-weight);
+}
+.token.string {
+  color: var(--hl-string, --hl-default-color);
+  font-weight: var(--hl-string-weight, --hl-default-weight);
+}
+.token.variable {
+  color: var(--hl-variable, --hl-default-color);
+  font-weight: var(--hl-variable-weight, --hl-default-weight);
+}
+.token.block-comment {
+  color: var(--hl-block-comment, --hl-default-color);
+  font-weight: var(--hl-block-comment-weight, --hl-default-weight);
+}
+.token.cdata {
+  color: var(--hl-cdata, --hl-default-color);
+  font-weight: var(--hl-cdata-weight, --hl-default-weight);
+}
+.token.comment {
+  color: var(--hl-comment, --hl-default-color);
+  font-weight: var(--hl-comment-weight, --hl-default-weight);
+}
+.token.doctype {
+  color: var(--hl-doctype, --hl-default-color);
+  font-weight: var(--hl-doctype-weight, --hl-default-weight);
+}
+.token.prolog {
+  color: var(--hl-prolog, --hl-default-color);
+  font-weight: var(--hl-prolog-weight, --hl-default-weight);
+}
+.token.tag.punctuation {
+  color: var(--hl-tag-punctuation, --hl-default-color);
+  font-weight: var(--hl-tag-punctuation-weight, --hl-default-weight);
+}
+
+.token.punctuation {
+  color: var(--hl-punctuation, --hl-default-color);
+  font-weight: var(--hl-punctuation-weight, --hl-default-weight);
+}
+
+.token.important {
+  color: var(--hl-important, --hl-default-color);
+  font-weight: var(--hl-important-weight, bold);
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.deleted {
+  color: var(--hl-deleted);
+}
+
+.token.inserted {
+  color: var(--hl-inserted);
+}

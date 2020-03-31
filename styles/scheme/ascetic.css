@@ -1,0 +1,16 @@
+:root {
+  --hl-color: #232528;
+  --hl-bg: #f3f6f9;
+
+  --hl-line-num: #838689;
+
+  --hl-punctuation: #838689;
+  --hl-tag-punctuation: #838689;
+  --hl-block-comment: #838689;
+  --hl-comment: #838689;
+
+  --hl-atrule-weight: bold;
+  --hl-builtin-weight: bold;
+  --hl-keyword-weight: bold;
+  --hl-selector-weight: bold;
+}

@@ -15,3 +15,6 @@
 @import './components/ProfileContacts.css';
 @import './components/ProjectList.css';
 @import './components/Showcase.css';
+
+@import './prism.css';
+@import './scheme/ascetic.css';

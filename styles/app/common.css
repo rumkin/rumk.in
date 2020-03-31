@@ -44,3 +44,17 @@ dt {
 dd {
   margin: 0;
 }
+
+code {
+  background-color: #efefef;
+  color: #333;
+  border-radius: 3px;
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 80%;
+}
+
+pre > code {
+  display: block;
+  padding: 8px;
+  overflow-y: auto;
+}

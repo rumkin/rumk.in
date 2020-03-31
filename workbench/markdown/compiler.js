@@ -6,13 +6,16 @@ import Vfile from 'vfile'
 import toHyper from 'hast-to-hyperscript'
 import toRehype from 'remark-rehype'
 import hastToString from 'hast-util-to-string'
+import visitAst from 'unist-util-visit'
 import yaml from 'js-yaml'
+import refractor from 'refractor'
 
 export default class Compiler {
   async compile(source, {filename = ''} = {}) {
     const processor = unified()
       .use(remark)
       .use(frontmatter)
+      .use(highlighter)
       .use(toRehype)
       .use(sanitize)
 
@@ -33,7 +36,7 @@ export default class Compiler {
           delete props.class
         }
       }
-      
+
       return {tagName, props, children}
     }
 
@@ -94,5 +97,29 @@ function getDescription(hast) {
 
   if (node) {
     return hastToString(node)
+  }
+}
+
+function highlighter() {
+  return (ast) => visitAst(ast, 'code', visitor)
+
+  function visitor(node) {
+    let {lang, data} = node
+
+    if (! lang) {
+      return
+    }
+
+    if (! data) {
+      data = {}
+      node.data = data
+    }
+
+    if (! data.hProperties) {
+      data.hProperties = {}
+    }
+
+    data.hChildren = refractor.highlight(node.value, lang)
+    data.hProperties.className = `language-${lang}`
   }
 }
