@@ -3,9 +3,10 @@ import {h} from 'hyperapp'
 export function Post({post}) {
   const {head, body} = post
 
-  const titleNode = {...body[0]}
-  titleNode.props = {
-    ...titleNode.props,
+  const titleNode = body[0]
+  const titleNode = [...body[0]]
+  titleNode[1] = {
+    ...titleNode[1],
     class: 'Post-title',
   }
 
@@ -30,7 +31,7 @@ function toLocaleDate(date) {
   })
 }
 
-function transformNode({tagName, props, children = []}) {
+function transformNode([tagName, props, children = []]) {
   return h(tagName, props, transformNodes(children))
 }
 

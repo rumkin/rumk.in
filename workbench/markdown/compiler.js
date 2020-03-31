@@ -27,8 +27,8 @@ export default class Compiler {
     let hast = await processor.run(tree)
     hast.children = hast.children.filter(({type}) => type === 'element')
 
-    function h(tagName, attrs, children) {
-      let props
+    function h(tagName, attrs, children = []) {
+      let props = {}
       if (attrs) {
         props = {...attrs}
         if ('class' in attrs) {
@@ -37,10 +37,9 @@ export default class Compiler {
         }
       }
 
-      return {tagName, props, children}
+      return [tagName, props, children]
     }
 
-    // TODO parse yaml
     let head
     const errors = []
     if (tree.children.length && tree.children[0].type === 'yaml') {
@@ -69,7 +68,7 @@ export default class Compiler {
       head.description = getDescription(hast)
     }
 
-    const body = toHyper(h, hast).children
+    const body = toHyper(h, hast)[2]
 
     return {
       errors,

@@ -11,6 +11,7 @@ export async function build({
   output,
   compiler = new Compiler(),
   reporter,
+  pretty = false,
 }) {
   const files = collectByExtname(input, '.md')
 
@@ -58,11 +59,11 @@ export async function build({
       await fs.writeFile(hashFile, hash)
       await fs.writeFile(
         path.join(fileDir, 'head.json'),
-        JSON.stringify(head, null, 2),
+        JSON.stringify(head, null, pretty ? 2 : 0),
       )
       await fs.writeFile(
         path.join(fileDir, 'body.json'),
-        JSON.stringify(body, null, 2),
+        JSON.stringify(body, null, pretty ? 2: 0),
       )
     }
   }
