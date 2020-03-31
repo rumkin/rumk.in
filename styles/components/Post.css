@@ -25,6 +25,13 @@
   line-height: 1.4em;
 }
 
+.Post-body a {
+  text-decoration-color: rgb(0, 114, 255);
+}
+.Post-body a:hover {
+  text-decoration-color: rgb(0, 114, 255, 0.3);
+}
+
 @media (max-width: 480px) {
   .Post > * {
     padding: 0 20px;

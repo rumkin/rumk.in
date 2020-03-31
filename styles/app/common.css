@@ -23,11 +23,11 @@ a:not([class]) {
   padding: 2px 4px;
   margin: -2px -4px;
 
-  text-decoration-color: rgba(0,0,0,0.2);
+  text-decoration-color: rgba(0,0,0,0.5);
 }
 
 a:not([class]):hover {
-  text-decoration-color: rgba(0,0,0,0.8);
+  text-decoration-color: rgba(0,0,0,0.1);
 }
 
 a:not([class]):focus {
