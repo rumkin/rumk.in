@@ -12,3 +12,25 @@ once. But it would be preferable it will make it twice or more times.
 
 Also there should be another paragraph. It should be shorter, probably once or
 twice. I _couldn't_ decide.
+
+## JavaScript
+
+Well this is a JavaScript code.
+
+```js
+console.log("Hello, World!")
+```
+
+## Go
+
+And this is a Golang code.
+
+```go
+import (
+  fmt
+)
+
+func main() {
+  fmt.Println("Hello, World")
+}
+```
