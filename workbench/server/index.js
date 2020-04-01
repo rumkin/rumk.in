@@ -15,6 +15,12 @@ async function main({
 
   const plant = new Plant()
 
+  plant.use(async ({res}, next) => {
+    await next()
+    // Rewrite CSP with empy policy
+    res.headers.set('content-security-policy', '')
+  })
+
   // Log requests
   plant.use(handleLogger(console))
 
