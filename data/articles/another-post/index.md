@@ -15,6 +15,10 @@ twice. I _couldn't_ decide.
 
 As an option you can open [initial post](../initial-post).
 
+$$
+x = f(\frac{y^2}{2})
+$$
+
 ## JavaScript
 
 Well this is a JavaScript code.
