@@ -2,7 +2,10 @@
   "protocol": "http",
   "host": "rumk.in",
   "globals": {
-    "owner": "Paul Rumkin"
+    "owner": "Paul Rumkin",
+    "profiles": {
+      "twitter": "rumkin"
+    }
   },
   "services": {
     "blog": {

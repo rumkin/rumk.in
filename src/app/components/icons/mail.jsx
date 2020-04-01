@@ -7,10 +7,10 @@ export default function Icon({size = 24, ...props} = {}) {
       width={size}
       height={size}
       stroke="currentColor"
-      stroke-width="2"
+      strokeWidth="2"
       fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       {...props}
     >
       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>

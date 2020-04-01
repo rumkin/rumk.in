@@ -7,10 +7,10 @@ export default function Icon({size = 24, ...props} = {}) {
       width={size}
       height={size}
       stroke="none"
-      stroke-width="2"
+      strokeWidth="2"
       fill="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       {...props}
     >
       <title>Twitter icon</title>

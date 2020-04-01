@@ -14,10 +14,22 @@
   line-height: 0.9em;
 }
 
+.Post-subheader {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: row;
+}
+
+.Post-subheader > *:not(:first-child) {
+  margin-left: 32px;
+}
+
 .Post-publishAt {
   color: #999;
-  font-style: italic;
-  margin-top: 8px;
+}
+
+.Post-share {
+  color: #999;
 }
 
 .Post-body {

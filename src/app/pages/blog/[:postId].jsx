@@ -18,7 +18,10 @@ function BlogPost(state, actions) {
   shell.doc.title = `${page.head.title} - ${globals.owner}`
 
   return (
-    <Post post={page} />
+    <Post
+      post={page}
+      profiles={globals.profiles}
+    />
   )
 }
 

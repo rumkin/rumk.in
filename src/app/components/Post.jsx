@@ -1,8 +1,12 @@
 import {h} from 'hyperapp'
 
 import {Link} from './Link'
+import {
+  TwitterShareLink,
+  RedditShareLink,
+} from './ShareLink'
 
-export function Post({post}) {
+export function Post({post, profiles}) {
   const {head, body} = post
 
   const titleNode = [...body[0]]
@@ -11,12 +15,30 @@ export function Post({post}) {
     class: 'Post-title',
   }
 
+  const shareUrl = new URL(window.location).toString()
+
   return (
     <div class="Post">
       <div class="Post-header">
         {transformNode(titleNode)}
-        <div class="Post-publishAt">
-          {toLocaleDate(new Date(head.publishAt))}
+        <div class="Post-subheader">
+          <span class="Post-publishAt">
+            {toLocaleDate(new Date(head.publishAt))}
+          </span>
+          <span class="Post-share">
+            Share to
+            {' '}
+            <TwitterShareLink
+              url={shareUrl}
+              text={head.title}
+              via={profiles.twitter}
+            />
+            {' '}
+            <RedditShareLink
+              url={shareUrl}
+              title={head.title}
+            />
+          </span>
         </div>
       </div>
       <div class="Post-body">
