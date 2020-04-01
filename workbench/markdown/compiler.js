@@ -1,22 +1,27 @@
 import unified from 'unified'
-import remark from 'remark-parse'
-import frontmatter from 'remark-frontmatter'
 import sanitize from 'hast-util-sanitize'
-import Vfile from 'vfile'
 import toHyper from 'hast-to-hyperscript'
+import refractor from 'refractor'
+import katex from 'rehype-katex'
+import frontmatter from 'remark-frontmatter'
+import math from 'remark-math'
+import remark from 'remark-parse'
 import toRehype from 'remark-rehype'
 import hastToString from 'hast-util-to-string'
 import visitAst from 'unist-util-visit'
 import yaml from 'js-yaml'
-import refractor from 'refractor'
+import Vfile from 'vfile'
 
 export default class Compiler {
   async compile(source, {filename = ''} = {}) {
     const processor = unified()
       .use(remark)
+      .use(math)
       .use(frontmatter)
       .use(highlighter)
       .use(toRehype)
+      .use(katex)
+      .use(styleToObject)
       .use(sanitize)
 
     const tree = await processor.parse(new Vfile({
@@ -120,5 +125,29 @@ function highlighter() {
 
     data.hChildren = refractor.highlight(node.value, lang)
     data.hProperties.className = `language-${lang}`
+  }
+}
+
+function styleToObject() {
+  return (ast) => visitAst(ast, visitor)
+
+  function visitor(node) {
+    const {properties} = node
+
+    if (! properties || typeof properties.style !== 'string') {
+      return
+    }
+
+    properties.style = toObject(properties.style)
+  }
+
+  function toObject(style) {
+    return style.replace(/;$/, '')
+    .split(';')
+    .map(value => value.split(':'))
+    .reduce((result, [prop, value]) => {
+      result[prop.trim()] = value.trim()
+      return result
+    }, {})
   }
 }
