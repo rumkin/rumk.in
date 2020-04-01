@@ -44,7 +44,7 @@ export default ({history, shell, cache, heights} = {}) => {
         })
       })
     },
-    pageGoto: (url) => (state) => {
+    pageGoto: (url) => (state, actions) => {
       if (! shell.isStatic) {
         const stateId = fooid()
         const height = history.length + 1
@@ -65,10 +65,13 @@ export default ({history, shell, cache, heights} = {}) => {
         window.scrollTo(0, 0)
         const base = document.head.querySelector('base')
         base.href = url
-        // document.baseURI = window.location.origin + url
       }
     },
     pageNavigated: ({to, from, stateId, height}) => (state) => {
+      if (! shell.isStatic) {
+        document.activeElement.blur()
+      }
+
       if (! cache.has(stateId)) {
         cache.set(stateId, {
           stateId,
